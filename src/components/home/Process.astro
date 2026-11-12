@@ -24,12 +24,18 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
     <div class="grid process__body reveal" data-steps>
       <ol class="steps">
         {steps.map((s, i) => (
-          <li>
+          <li class:list={{ 'is-open': i === 0 }}>
             <button type="button" class:list={['step', { 'is-active': i === 0 }]} data-step={i} aria-pressed={i === 0 ? 'true' : 'false'}>
               <span class="step__n">{String(i + 1).padStart(2, '0')}</span>
               <span class="step__t" set:html={s.t} />
               <span class="step__d" set:html={s.d} />
             </button>
+            <div class="step__more" aria-hidden={i === 0 ? undefined : 'true'}>
+              <div class="step__more-in">
+                <p set:html={s.d} />
+                <Image src={s.photo} alt={plain(s.alt)} widths={[480, 768, 1080]} sizes="(min-width: 901px) 1px, 100vw" loading="lazy" style={`object-position:${s.pos}`} />
+              </div>
+            </div>
           </li>
         ))}
       </ol>
@@ -64,13 +70,31 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
   .process__photo :global(.process__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s var(--ease-out); }
   .process__photo :global(.process__img.is-active) { opacity: 1; }
 
+  .step__more { display: none; }
+
+  /* мобилка/планшет: аккордеон — по тапу на шаг под ним выезжают пояснение и фото */
   @media (max-width: 900px) {
-    .steps, .process__photo { grid-column: 1 / -1; }
-    .process__photo { order: -1; aspect-ratio: 4 / 3; min-height: 0; margin-bottom: 24px; }
+    .steps { grid-column: 1 / -1; }
+    .process__photo { display: none; }
+    .step { align-items: center; }
+    .step__d { display: none; }
+    .step::after {
+      content: ""; grid-column: 3; grid-row: 1; width: 10px; height: 10px; margin-right: 6px;
+      border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+      transform: translateY(-3px) rotate(45deg); transition: transform 0.35s var(--ease-out);
+    }
+    .step { grid-template-columns: 72px 1fr auto; }
+    .step.is-active::after { transform: translateY(2px) rotate(225deg); }
+    .step__more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s var(--ease-out); }
+    .step__more-in { min-height: 0; overflow: hidden; display: grid; gap: 16px; padding-left: 88px; }
+    .step__more-in p { font-size: 16px; line-height: 1.5; color: #3d444e; }
+    .step__more-in :global(img) { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-photo); margin-bottom: 24px; }
+    li.is-open .step__more { grid-template-rows: 1fr; }
   }
   @media (max-width: 599px) {
-    .process__photo { border-radius: 18px; margin-bottom: 16px; }
-    .step { grid-template-columns: 40px 1fr; column-gap: 8px; padding: 18px 0; min-height: 48px; }
+    .step__more-in { padding-left: 0; gap: 14px; }
+    .step__more-in :global(img) { border-radius: 14px; margin-bottom: 20px; }
+    .step { grid-template-columns: 40px 1fr auto; column-gap: 8px; padding: 18px 0; min-height: 48px; }
     .step__n { font-size: 18px; }
     .step__t { font-size: 28px; }
     .step__d { font-size: 15px; }
@@ -84,10 +108,17 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
     const show = (i: string) => {
       btns.forEach((b) => { const on = b.dataset.step === i; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
       photos.forEach((p) => p.classList.toggle('is-active', p.dataset.photo === i));
+      btns.forEach((b) => {
+        const li = b.parentElement!; const on = b.dataset.step === i;
+        li.classList.toggle('is-open', on);
+        const more = li.querySelector<HTMLElement>('.step__more');
+        if (more) { if (on) more.removeAttribute('aria-hidden'); else more.setAttribute('aria-hidden', 'true'); }
+      });
     };
     btns.forEach((b) => {
-      b.addEventListener('mouseenter', () => show(b.dataset.step!));
-      b.addEventListener('focus', () => show(b.dataset.step!));
+      const desk = () => window.matchMedia('(min-width: 901px)').matches;
+      b.addEventListener('mouseenter', () => { if (desk()) show(b.dataset.step!); });
+      b.addEventListener('focus', () => { if (desk()) show(b.dataset.step!); });
       b.addEventListener('click', () => show(b.dataset.step!));
     });
   });

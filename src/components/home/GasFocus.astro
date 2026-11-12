@@ -74,19 +74,23 @@ const points = [
     .gas__card { grid-column: 1 / -1; }
     .gas__ph:nth-of-type(1) { grid-column: 1 / span 6; }
     .gas__ph:nth-of-type(2) { grid-column: 7 / span 6; }
+    /* картинки к картинкам: фото с заголовком → два фото → текст → кнопка последней */
+    .gas__ph { order: 1; }
+    .gas__card { order: 2; }
   }
-  /* телефон: фото с заголовком → белая карточка → кнопка во всю колонку → два фото 1:1 */
+  /* телефон: фото с заголовком → два фото 1:1 → белая карточка с текстом → кнопка во всю колонку */
   @media (max-width: 599px) {
     .gas__grid { row-gap: 12px; }
     .gas__hero { min-height: 0; aspect-ratio: 4 / 5; border-radius: 20px; }
     .gas__hero h2 { padding: 20px; font-size: clamp(40px, 11vw, 48px); }
     .gas__card { display: contents; }
     .gas__text { display: grid; gap: 20px; grid-column: 1 / -1; padding: 24px 20px 12px; background: var(--c-surface); border-radius: 18px; }
-    .gas__card :global(.btn) { grid-column: 1 / -1; }
+    .gas__text { order: 2; }
+    .gas__card :global(.btn) { grid-column: 1 / -1; order: 3; }
     .gas__lead { font-size: 17px; }
     .gas__list { border-top: 0; }
     .gas__list li:last-child { border-bottom: 0; }
-    .gas__ph { margin-top: 4px; }
+    .gas__ph { margin: 0; }
     .gas__ph:nth-of-type(1) { grid-column: 1 / span 6; }
     .gas__ph:nth-of-type(2) { grid-column: 7 / span 6; }
     .gas__ph :global(img) { height: auto; aspect-ratio: 1; border-radius: 14px; }

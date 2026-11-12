@@ -87,7 +87,9 @@ const widget = `https://yandex.ru/map-widget/v1/?ll=${encodeURIComponent(ll)}&z=
 
   @media (max-width: 900px) {
     .contacts__info, .map { grid-column: 1 / -1; }
-    .map { min-height: 0; aspect-ratio: 4 / 3; }
+    /* высоту задаёт распорка, а не aspect-ratio: Safari схлопывал ячейку без содержимого в 0 */
+    .map { min-height: 0; align-self: start; }
+    .map::before { content: ""; display: block; padding-top: 75%; }
   }
   @media (min-width: 600px) and (max-width: 1080px) {
     .contacts__tel, .contacts__mail { display: flex; align-items: center; min-height: 48px; width: fit-content; }
@@ -97,7 +99,8 @@ const widget = `https://yandex.ru/map-widget/v1/?ll=${encodeURIComponent(ll)}&z=
     .contacts__info { gap: 24px; }
     .contacts__tel, .contacts__mail { display: flex; align-items: center; min-height: 48px; }
     .contacts__tel { font-size: 36px; }
-    .map { aspect-ratio: 4 / 5; border-radius: 18px; }
+    .map { border-radius: 18px; }
+    .map::before { padding-top: 125%; }
     .map__pin { top: 34%; }
     .map__cta { left: 12px; right: 12px; bottom: 12px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
   }

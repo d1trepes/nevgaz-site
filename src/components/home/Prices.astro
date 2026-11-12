@@ -46,6 +46,7 @@ const keep = (t: string) => t.replace(/([А-Яа-яЁё]+(?:ого|ные|ный
         <Button lead topic="расчёт под мой дом">Получить расчёт</Button>
       </li>
     </ul>
+    <div class="prices__more"><Button href={url('/ceny/')} variant="ghost">Все цены</Button></div>
   </div>
 </section>
 
@@ -71,15 +72,16 @@ const keep = (t: string) => t.replace(/([А-Яа-яЁё]+(?:ого|ные|ный
 
   @media (max-width: 1080px) { .price { grid-column: span 6; } }
   @media (max-width: 1080px) { .price :global(.nw) { white-space: nowrap; } }
+  .prices__more { display: none; }
+  /* телефон: все карточки столбиком, без свайпа; «Все цены» — в конце блока */
   @media (max-width: 599px) {
-    .prices__grid {
-      display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;
-      scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
-      margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter);
-      scrollbar-width: none;
-    }
-    .prices__grid::-webkit-scrollbar { display: none; }
-    .price { flex: 0 0 82%; scroll-snap-align: start; min-height: 0; padding: 24px 20px; border-radius: 18px; }
+    .prices :global(.sec-head__btn) { display: none; }
+    .prices__grid { row-gap: 12px; }
+    .price { grid-column: 1 / -1; min-height: 0; padding: 24px 20px; border-radius: 18px; gap: 12px; }
+    .price__text { max-width: none; }
+    .price__value { margin-top: 12px; font-size: min(56px, 17cqi); }
     .price__title--big { font-size: 28px; }
+    .price--dark :global(.btn) { margin-top: 12px; }
+    .prices__more { display: block; margin-top: 12px; }
   }
 </style>
