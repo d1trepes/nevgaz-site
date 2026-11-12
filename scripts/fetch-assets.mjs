@@ -1,6 +1,6 @@
 // Скачивает исходные фото НевГаз из 2ГИС в src/assets (Astro сам оптимизирует их в AVIF/WebP при сборке).
 // Запуск: npm run assets   (нужен доступ в интернет; при ошибках — отключить VPN, 2ГИС режет зарубежные IP)
-import { mkdir, writeFile, access } from 'node:fs/promises';
+import { mkdir, writeFile, readdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 
 const G = (id) => `https://i0.photo.2gis.com/photo-gallery/${id}.jpg`;
@@ -39,7 +39,9 @@ const root = new URL('../src/assets/', import.meta.url).pathname;
 let ok = 0, skip = 0, fail = 0;
 for (const [name, url] of ASSETS) {
   const out = join(root, name);
-  try { await access(out); skip++; continue; } catch {}
+  const stem = name.replace(/\.[a-z]+$/, '').split('/').pop();
+  const existing = await readdir(dirname(out)).catch(() => []);
+  if (existing.some((f) => f.replace(/\.[a-z]+$/, '') === stem)) { skip++; continue; }
   try {
     const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0', Referer: 'https://2gis.ru/' } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

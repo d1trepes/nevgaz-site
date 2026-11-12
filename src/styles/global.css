@@ -23,13 +23,6 @@ p { margin: 0; text-wrap: pretty; }
 .section--soft { background: var(--c-bg-soft); }
 .section--dark { background: var(--c-navy-900); color: #fff; }
 
-.eyebrow {
-  display: inline-flex; align-items: center; gap: 10px;
-  font: 600 13px/1 var(--f-display); text-transform: uppercase; letter-spacing: 0.14em;
-  color: var(--c-orange-600);
-}
-.eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c-orange); }
-.section--dark .eyebrow { color: var(--c-orange-glow); }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
