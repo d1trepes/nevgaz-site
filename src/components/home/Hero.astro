@@ -93,9 +93,13 @@ const layers = [
     .hero-wrap .sw { justify-content: flex-start; }
     .hero-wrap .status { max-width: none; background: rgba(255,255,255,.08); }
   }
+  @media (max-width: 900px) {
+    .hero-wrap .hero-head h1 { font-size: clamp(46px, 12.5vw, 64px); }
+  }
   @media (max-width: 600px) {
     .hero-wrap .stage { border-radius: 20px; }
     .hero-wrap .hero-side p { font-size: 16px; }
+    .hero-wrap .hero-side { gap: 20px; padding-bottom: 0; }
   }
   @media (prefers-reduced-motion: reduce) { .hero-wrap .house img, .hero-wrap .status, .hero-wrap .sw, .hero-wrap .sw__track::after { transition: none !important; } }
 </style>

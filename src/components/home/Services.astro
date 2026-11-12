@@ -37,7 +37,7 @@ const cards = [
       {cards.map((c) => (
         <li class="svc">
           <a href={url(c.href)} class="svc__link">
-            <Image class="svc__img" src={c.photo} alt={c.alt.replaceAll('&nbsp;', ' ')} widths={[400, 640, 900]} sizes="(min-width: 1080px) 25vw, 82vw" style={`object-position:${c.pos}`} />
+            <Image class="svc__img" src={c.photo} alt={c.alt.replaceAll('&nbsp;', ' ')} widths={[400, 640, 900]} sizes="(min-width: 1081px) 25vw, (min-width: 600px) 50vw, 82vw" style={`object-position:${c.pos}`} />
             <span class="round svc__go" aria-hidden="true"><Arrow /></span>
             <span class="svc__body">
               <h3 class="svc__title">{c.title}</h3>
@@ -76,5 +76,17 @@ const cards = [
   }
 
   @media (max-width: 1080px) { .svc { grid-column: span 6; } }
-  @media (max-width: 600px) { .svc { grid-column: 1 / -1; } .svc__link { height: 420px; } }
+  /* телефон: горизонтальный свайп без JS, карточка 82%, виден край следующей */
+  @media (max-width: 599px) {
+    .services__grid {
+      display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+      margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+    .services__grid::-webkit-scrollbar { display: none; }
+    .svc { flex: 0 0 82%; scroll-snap-align: start; }
+    .svc__link { height: 420px; border-radius: 18px; }
+    .svc__body { padding: 20px; }
+  }
 </style>

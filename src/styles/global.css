@@ -98,8 +98,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 599px) {
   .btn, .btn--sm {
     display: flex; width: 100%; max-width: none; height: 56px; min-height: 56px;
-    justify-content: space-between; padding: 0 8px 0 22px; font-size: 16px;
-    text-align: left; white-space: nowrap;
+    justify-content: space-between; gap: 12px; padding: 0 8px 0 22px; font-size: 16px; line-height: 1.15;
+    text-align: left; white-space: normal; text-wrap: balance; /* страховка: аккуратно в две строки, а не вылет за край */
   }
   .btn .btn__puck, .btn--sm .btn__puck { width: 40px; height: 40px; }
   .btn-row { display: grid !important; grid-template-columns: minmax(0, 1fr); gap: 10px; width: 100%; }
