@@ -79,3 +79,6 @@ frost patterns on the window glass, icy white frost crystals on the glass only, 
 - **03 gas-off** — правка 01, только конфорки и дисплей котла: `gas hob burners turned off, no flame, clean dark burner caps, boiler display turned off and black, warm interior light exactly as before, keep everything else exactly the same, same camera, same lighting, same colors`
 - **06 dark-gas-off (переделать)** — правка именно 02, только конфорки и дисплей: `gas hob burners turned off, no flame, dark burner caps, boiler display turned off and black, dark kitchen lit only by dim blue evening light from outside, same darkness as the rest of the room, keep everything else exactly the same, same camera, same lighting, same colors`. Прежний 06 светлее, чем 02, — отсюда светлое пятно на кухне.
 Итого на доработку: 03, 04, 06, 07, 08.
+
+## Итог (12.11, 18:00) — слои финальные, ничего догенерировать не нужно
+`src/assets/hero/`: свет вкл — `water-l` (сухой душ, кадр n1), `gas-l` (без пламени, дисплей котла погашен), `frost-l` (иней, кадр n3); свет выкл — `water-d` (тёмная ванная без воды, n2), `gas-d` (тёмные кухня и котельная без газа, n4 + n5), `frost-d`. Тёмные слои подогнаны по тону под `dark.jpg`, поэтому при выключенном свете светлых пятен нет. Исходники — `src/assets/ai/house-1floor/`.
