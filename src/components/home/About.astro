@@ -52,4 +52,14 @@ const facts = [
   @media (max-width: 900px) {
     .about__ph--a, .about__ph--b, .about__facts li { grid-column: 1 / -1; }
   }
+  /* телефон: фото одно над другим в своих пропорциях — без пустых мест и прыжков */
+  @media (max-width: 599px) {
+    .about__photos { row-gap: 12px; }
+    .about__ph :global(img) { height: auto; border-radius: 14px; }
+    .about__ph--a :global(img) { aspect-ratio: 4 / 5; }
+    .about__ph--b :global(img) { aspect-ratio: 4 / 3; }
+    .about__facts { row-gap: 20px; }
+    .about__facts li { padding-top: 16px; }
+    .about__facts h3 { font-size: 26px; }
+  }
 </style>

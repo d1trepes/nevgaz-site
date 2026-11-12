@@ -14,7 +14,7 @@ const needs = ['Газ', 'Отопление', 'Вода', 'Электрика',
       <Image class="cta__bg" src={dusk} alt="" widths={[768, 1080, 1440, 1920]} sizes="(min-width: 1680px) 1624px, 100vw" loading="lazy" />
       <div class="grid cta__grid">
         <div class="cta__text">
-          <h2>Расскажите,<br />что нужно сделать</h2>
+          <h2>Расскажите,<br /><span class="nw">что нужно сделать</span></h2>
           <p>Перезвоним, приедем на&nbsp;замер и&nbsp;посчитаем.</p>
         </div>
 
@@ -90,6 +90,18 @@ const needs = ['Газ', 'Отопление', 'Вода', 'Электрика',
   @media (max-width: 1080px) {
     .cta__text, .cta__card { grid-column: 1 / -1; }
     .cta__box::after { background: rgb(10 26 48 / 0.82); }
+    .cta__text .nw { white-space: nowrap; }
+  }
+  @media (max-width: 599px) {
+    .cta__box { border-radius: 20px; }
+    .cta__grid { padding: 28px 16px 16px; min-height: 0; row-gap: 24px; }
+    .cta__text { gap: 14px; padding-inline: 4px; }
+    .cta__text h2 { font-size: clamp(36px, 10.4vw, 48px); }
+    .cta__text p { font-size: 17px; }
+    .cta__card { padding: 24px 20px 20px; border-radius: 18px; }
+    .chip span { height: 48px; padding: 0 18px; font-size: 16px; }
+    .consent { min-height: 48px; align-items: center; font-size: 14px; }
+    .consent input { width: 22px; height: 22px; margin: 0; }
   }
 </style>
 

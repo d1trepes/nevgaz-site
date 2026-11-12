@@ -56,7 +56,7 @@ const schema = {
       </div>
       <aside class="faq__ask">
         <h3>Не&nbsp;нашли ответ?</h3>
-        <p>Спросите мастера напрямую — перезвоним и&nbsp;ответим по&nbsp;вашему дому.</p>
+        <p>Спросите мастера напрямую&nbsp;— перезвоним и&nbsp;ответим по&nbsp;вашему дому.</p>
         <Button lead topic="вопрос мастеру" block>Задать вопрос</Button>
       </aside>
     </div>
@@ -88,5 +88,10 @@ const schema = {
   .faq__ask p { font-size: 16px; color: #3d444e; margin-bottom: 8px; }
 
   @media (max-width: 1080px) { .faq__list { grid-column: 1 / -1; } .faq__ask { grid-column: 1 / span 6; } }
-  @media (max-width: 600px) { .faq__ask { grid-column: 1 / -1; } .qa p { padding-right: 0; } }
+  @media (max-width: 599px) {
+    .faq__ask { grid-column: 1 / -1; padding: 24px 20px 20px; border-radius: 18px; }
+    .qa summary { min-height: 56px; padding: 16px 0; gap: 16px; font-size: 21px; }
+    .qa p { padding: 0 0 20px; font-size: 16px; }
+    .faq__ask h3 { font-size: 28px; }
+  }
 </style>
