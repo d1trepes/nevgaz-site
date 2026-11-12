@@ -1,0 +1,76 @@
+---
+// Футер: navy, логотип с подписью, колонки Услуги / Компания / Контакты, юрлицо, ©, политика, «Демо-версия сайта».
+import { mainNav, services, legal } from '../data/nav';
+import company from '../data/company.json';
+import { url } from '../lib/url';
+
+const companyLinks = mainNav.filter((i) => !i.children && i.href !== '/kontakty/');
+const year = 2026;
+---
+<footer class="ftr">
+  <div class="container">
+    <div class="grid ftr__top">
+      <div class="ftr__brand">
+        <a href={url('/')} aria-label={`${company.brand} — на главную`}>
+          <img src={url('/brand/logo-horizontal-tagline-white.svg')} alt="" width="194" height="60" loading="lazy" />
+        </a>
+        <p>{company.subTagline.replaceAll(' • ', ' · ')}</p>
+      </div>
+      <nav class="ftr__col ftr__col--services" aria-label="Услуги">
+        <h2 class="ftr__h"><a href={url('/uslugi/')}>Услуги</a></h2>
+        <ul>{services.map((s) => <li><a href={url(s.href)}>{s.title}</a></li>)}</ul>
+      </nav>
+      <nav class="ftr__col ftr__col--company" aria-label="Компания">
+        <h2 class="ftr__h">Компания</h2>
+        <ul>{companyLinks.map((s) => <li><a href={url(s.href)}>{s.title}</a></li>)}</ul>
+      </nav>
+      <div class="ftr__col ftr__col--contacts">
+        <h2 class="ftr__h"><a href={url('/kontakty/')}>Контакты</a></h2>
+        <ul>
+          {company.phones.map((p) => <li><a class="ftr__tel" href={p.href}>{p.display}</a></li>)}
+          <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+          <li class="ftr__addr">{company.address.city}, {company.address.street.replace('улица', 'ул.')}, {company.address.note}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr__bottom">
+      <span>{company.legalName}</span>
+      <span>© {year} {company.brand}</span>
+      {legal.map((l) => <a href={url(l.href)}>{l.title}</a>)}
+      <span class="ftr__demo">Демо-версия сайта</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--c-navy-900); color: #fff; padding-block: clamp(56px, 6vw, 88px) 28px; }
+  .ftr a { text-decoration: none; transition: color 0.2s; }
+  @media (hover: hover) { .ftr a:hover { color: var(--c-orange); } }
+  .ftr__top { row-gap: 40px; }
+  .ftr__brand { grid-column: 1 / span 4; display: grid; gap: 18px; align-content: start; }
+  .ftr__brand img { height: 60px; width: auto; }
+  .ftr__brand p { color: #9aa6b6; font-size: 15px; }
+  .ftr__col--services { grid-column: 6 / span 3; }
+  .ftr__col--company { grid-column: 9 / span 2; }
+  .ftr__col--contacts { grid-column: 11 / span 2; }
+  .ftr__h { font: 600 15px/1.4 var(--f-body); color: #9aa6b6; margin-bottom: 16px; }
+  .ftr__col ul { display: grid; gap: 10px; font-size: 15px; line-height: 1.4; }
+  .ftr__tel { font: 600 24px/1.1 var(--f-display); letter-spacing: 0.01em; }
+  .ftr__addr { color: #9aa6b6; margin-top: 6px; }
+  .ftr__bottom {
+    margin-top: clamp(48px, 6vw, 88px); padding-top: 22px; border-top: 1px solid rgb(255 255 255 / 0.12);
+    display: flex; flex-wrap: wrap; gap: 8px 32px; font-size: 13px; color: #9aa6b6;
+  }
+  .ftr__demo { margin-left: auto; }
+
+  @media (max-width: 1080px) {
+    .ftr__brand { grid-column: 1 / -1; }
+    .ftr__col--services { grid-column: 1 / span 5; }
+    .ftr__col--company { grid-column: 6 / span 3; }
+    .ftr__col--contacts { grid-column: 9 / -1; }
+  }
+  @media (max-width: 700px) {
+    .ftr__col--services, .ftr__col--company, .ftr__col--contacts { grid-column: 1 / -1; }
+    .ftr__demo { margin-left: 0; }
+  }
+</style>

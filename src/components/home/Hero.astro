@@ -1,0 +1,129 @@
+---
+// Хиро «Дом с выключателями» — перенесено один в один из prototypes/hero-variants.html.
+// Слои: src/assets/hero/ (логика показа — docs/08-hero-house-prompts.md). Ничего не «улучшать».
+import { Image } from 'astro:assets';
+import Button from '../Button.astro';
+import base from '../../assets/hero/base.jpg';
+import dark from '../../assets/hero/dark.jpg';
+import gasL from '../../assets/hero/gas-l.webp';
+import gasD from '../../assets/hero/gas-d.webp';
+import waterL from '../../assets/hero/water-l.webp';
+import waterD from '../../assets/hero/water-d.webp';
+import frostL from '../../assets/hero/frost-l.webp';
+import frostD from '../../assets/hero/frost-d.webp';
+
+const widths = [768, 1080, 1448];
+const sizes = '(max-width: 1680px) 100vw, 1624px';
+const layers = [
+  { src: dark, cls: 'layer l-dark' },
+  { src: gasL, cls: 'layer s-gas-l' }, { src: gasD, cls: 'layer s-gas-d' },
+  { src: waterL, cls: 'layer s-water-l' }, { src: waterD, cls: 'layer s-water-d' },
+  { src: frostL, cls: 'layer s-heat-l' }, { src: frostD, cls: 'layer s-heat-d' },
+];
+---
+<div class="hero-wrap">
+  <section class="hero" aria-label="Главный экран">
+    <div class="hero-head">
+      <h1>Проведём газ<br />в&nbsp;ваш дом</h1>
+      <div class="hero-side">
+        <p>А&nbsp;дальше котёл, отопление, вода и&nbsp;электрика. Одна бригада от&nbsp;проекта до&nbsp;запуска — в&nbsp;Невинномысске, по&nbsp;краю и&nbsp;в&nbsp;Черкесске.</p>
+        <Button lead topic="расчёт стоимости">Рассчитать стоимость</Button>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="house" id="house" data-gas="on" data-heat="on" data-water="on" data-light="on" role="img" aria-label="Одноэтажный дом в разрезе: ванная, кухня, котельная, гостиная и спальня">
+        <Image src={base} alt="" widths={widths} sizes={sizes} loading="eager" fetchpriority="high" />
+        {layers.map((l) => <Image class={l.cls} src={l.src} alt="" widths={widths} sizes={sizes} loading="lazy" decoding="async" />)}
+        <span class="chill" aria-hidden="true"></span>
+      </div>
+      <div class="controls">
+        <div class="status" id="status" aria-live="polite"><b>Так выглядит дом, где всё работает</b>Выключите любую систему и&nbsp;посмотрите, что изменится.</div>
+        <div class="switches" role="group" aria-label="Системы дома">
+          <button class="sw" type="button" data-sys="gas" aria-pressed="true"><span class="sw__track" aria-hidden="true"></span>Газ</button>
+          <button class="sw" type="button" data-sys="heat" aria-pressed="true"><span class="sw__track" aria-hidden="true"></span>Отопление</button>
+          <button class="sw" type="button" data-sys="water" aria-pressed="true"><span class="sw__track" aria-hidden="true"></span>Вода</button>
+          <button class="sw" type="button" data-sys="light" aria-pressed="true"><span class="sw__track" aria-hidden="true"></span>Свет</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style is:global>
+  /* CSS прототипа без изменений; селекторы только ограничены .hero-wrap */
+  .hero-wrap { width: 100%; max-width: clamp(820px, calc((100svh - 352px) * 2.2277 + 56px), 1680px); margin-inline: auto; padding-left: max(clamp(16px, 2vw, 28px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 2vw, 28px), env(safe-area-inset-right, 0px)); padding-block: 0 24px; }
+
+  .hero-wrap .hero-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 20px; align-items: end; padding: clamp(12px, 2.4svh, 32px) 0 clamp(18px, 2.6svh, 28px); }
+  .hero-wrap .hero-head h1 { grid-column: 1 / span 7; font-size: clamp(48px, min(7vw, 10.5svh), 112px); line-height: .9; letter-spacing: -.01em; }
+  .hero-wrap .hero-side { grid-column: 9 / -1; display: grid; gap: 22px; justify-items: start; padding-bottom: 10px; }
+  .hero-wrap .hero-side p { font-size: 18px; line-height: 1.55; color: #3d444e; }
+  .hero-wrap .stage { position: relative; border-radius: 28px; overflow: hidden; background: #6f87b8; }
+  .hero-wrap .house { position: relative; width: 100%; aspect-ratio: 1448 / 650; }
+  .hero-wrap .house img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block; transition: opacity .9s cubic-bezier(.22,.7,.2,1); }
+  .hero-wrap .house .layer { opacity: 0; }
+  .hero-wrap .house[data-light="off"] .l-dark { opacity: 1; }
+  .hero-wrap .house[data-light="on"][data-gas="off"] .s-gas-l,
+  .hero-wrap .house[data-light="on"][data-water="off"] .s-water-l,
+  .hero-wrap .house[data-light="on"][data-heat="off"] .s-heat-l,
+  .hero-wrap .house[data-light="off"][data-gas="off"] .s-gas-d,
+  .hero-wrap .house[data-light="off"][data-water="off"] .s-water-d,
+  .hero-wrap .house[data-light="off"][data-heat="off"] .s-heat-d { opacity: 1; }
+  .hero-wrap .chill { position: absolute; left: 8.3%; right: 9.2%; top: 37.7%; height: 47.7%; background: rgb(150 190 240 / .16); mix-blend-mode: soft-light; opacity: 0; transition: opacity 1.2s cubic-bezier(.22,.7,.2,1); pointer-events: none; }
+  .hero-wrap .house[data-heat="off"] .chill { opacity: 1; }
+  .hero-wrap .controls { position: absolute; z-index: 2; left: 18px; right: 18px; bottom: 18px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  .hero-wrap .status { max-width: 420px; background: rgba(12,20,34,.66); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: #fff; border-radius: 14px; padding: 12px 16px; font-size: 14px; line-height: 1.45; transition: opacity .35s cubic-bezier(.22,.7,.2,1); }
+  .hero-wrap .status b { font: 600 17px/1.2 var(--f-display); letter-spacing: .01em; display: block; margin-bottom: 2px; }
+  .hero-wrap .status.swap { opacity: 0; }
+  .hero-wrap .switches { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .hero-wrap .sw { display: inline-flex; align-items: center; gap: 12px; height: 48px; padding: 0 18px 0 8px; border-radius: 999px; border: 0; background: #fff; color: var(--c-ink); font: 500 15px/1 var(--f-body); cursor: pointer; transition: background .3s, color .3s; }
+  .hero-wrap .sw__track { position: relative; width: 38px; height: 22px; border-radius: 999px; background: var(--c-ink); transition: background .3s; flex: none; }
+  .hero-wrap .sw__track::after { content: ""; position: absolute; top: 3px; left: 19px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: left .3s cubic-bezier(.22,.7,.2,1); }
+  .hero-wrap .sw[aria-pressed="false"] { background: rgba(255,255,255,.2); color: #fff; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .hero-wrap .sw[aria-pressed="false"] .sw__track { background: rgba(255,255,255,.3); }
+  .hero-wrap .sw[aria-pressed="false"] .sw__track::after { left: 3px; }
+
+  @media (max-width: 900px) {
+    .hero-wrap .hero-head { grid-template-columns: 1fr; }
+    .hero-wrap .hero-head h1, .hero-wrap .hero-side { grid-column: 1 / -1; }
+    .hero-wrap .house { aspect-ratio: 1.9; max-height: none; min-height: 0; }
+    .hero-wrap .controls { position: static; flex-direction: column-reverse; align-items: stretch; padding: 10px; gap: 10px; }
+    .hero-wrap .switches { display: grid; grid-template-columns: 1fr 1fr; }
+    .hero-wrap .sw { justify-content: flex-start; }
+    .hero-wrap .status { max-width: none; background: rgba(255,255,255,.08); }
+  }
+  @media (max-width: 600px) {
+    .hero-wrap .stage { border-radius: 20px; }
+    .hero-wrap .hero-side p { font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero-wrap .house img, .hero-wrap .status, .hero-wrap .sw, .hero-wrap .sw__track::after { transition: none !important; } }
+</style>
+
+<script>
+  // Скрипт выключателей из прототипа
+  const house = document.getElementById('house')!;
+  const status = document.getElementById('status')!;
+  const OFF: Record<string, [string, string]> = {
+    gas:   ['Без газа плита и котёл молчат', 'Проведём газ от точки на участке до плиты и котла. От 10\u00A0000\u00A0₽.'],
+    heat:  ['Без отопления в доме холодно', 'Поставим котёл, радиаторы и тёплый пол. Котлы от\u00A020\u00A0000\u00A0₽.'],
+    water: ['Без воды душ сухой', 'Разведём воду, поставим бойлер и водонагреватель. Цена после замера.'],
+    light: ['Без электрики дом тёмный', 'Проводка и сборка щита в частном доме. 10–20\u00A0тыс.\u00A0₽.'],
+  };
+  const ALL_ON: [string, string] = ['Так выглядит дом, где всё работает', 'Выключите любую систему и посмотрите, что изменится.'];
+  let t: ReturnType<typeof setTimeout>;
+  function say([title, text]: [string, string]) {
+    status.classList.add('swap');
+    clearTimeout(t);
+    t = setTimeout(() => { status.innerHTML = '<b></b>'; status.firstChild!.textContent = title; status.append(text); status.classList.remove('swap'); }, 200);
+  }
+  document.querySelectorAll<HTMLButtonElement>('.sw').forEach((btn) => btn.addEventListener('click', () => {
+    const sys = btn.dataset.sys!;
+    const nowOn = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', String(nowOn));
+    house.dataset[sys] = nowOn ? 'on' : 'off';
+    if (!nowOn) say(OFF[sys]);
+    else {
+      const stillOff = [...document.querySelectorAll<HTMLButtonElement>('.sw[aria-pressed="false"]')].map((b) => b.dataset.sys!);
+      say(stillOff.length ? OFF[stillOff[stillOff.length - 1]] : ALL_ON);
+    }
+  }));
+</script>

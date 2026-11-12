@@ -1,5 +1,11 @@
 ---
-// Базовый layout. Header/Footer/LeadModal подключить сюда, когда будут готовы (см. CLAUDE.md).
+// Базовый layout: <head>, SEO, шапка, футер, модалка заявки.
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import LeadModal from '../components/LeadModal.astro';
+import ogSrc from '../assets/ai/house-dusk.jpg';
+import firaBold from '@fontsource/fira-sans-extra-condensed/files/fira-sans-extra-condensed-cyrillic-700-normal.woff2?url';
 import '@fontsource/fira-sans-extra-condensed/600.css';
 import '@fontsource/fira-sans-extra-condensed/700.css';
 import '@fontsource-variable/golos-text/wght.css';
@@ -7,11 +13,15 @@ import '../styles/global.css';
 import company from '../data/company.json';
 import { url } from '../lib/url';
 
-interface Props { title?: string; description?: string; }
+interface Props { title?: string; description?: string; heroHeader?: boolean; }
 const {
+  heroHeader = false,
   title = 'НевГаз — газификация, отопление и водоснабжение домов под ключ в Невинномысске',
   description = 'Проектируем, монтируем и запускаем газ, отопление, воду и электрику в частных домах. Невинномысск, Ставропольский край, Черкесск. Гарантия на работы.',
 } = Astro.props;
+
+const og = await getImage({ src: ogSrc, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const ogUrl = new URL(og.src, Astro.site).href;
 
 const schema = {
   '@context': 'https://schema.org',
@@ -46,12 +56,29 @@ const schema = {
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+    <link rel="preload" href={firaBold} as="font" type="font/woff2" crossorigin />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
   </head>
   <body>
     <a class="skip-link" href="#main">К содержимому</a>
-    <slot name="header" />
+    <Header hero={heroHeader} />
     <main id="main"><slot /></main>
-    <slot name="footer" />
+    <Footer />
+    <LeadModal />
+    <script>
+      // появление блоков: fade + translateY(16px), 500ms, один раз
+      const els = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px' });
+        els.forEach((el) => io.observe(el));
+      } else els.forEach((el) => el.classList.add('is-in'));
+    </script>
   </body>
 </html>

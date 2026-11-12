@@ -1,0 +1,21 @@
+---
+// Единственная кнопка сайта: оранжевая pill с белой шайбой-стрелкой.
+// lead — открывает модалку «Вызвать мастера» (topic — что подставить в поле «Что нужно»).
+import Arrow from './Arrow.astro';
+interface Props {
+  href?: string;
+  lead?: boolean;
+  topic?: string;
+  size?: 'sm' | 'md';
+  type?: 'button' | 'submit';
+  block?: boolean;
+  class?: string;
+}
+const { href, lead = false, topic, size = 'md', type = 'button', block = false, class: cls } = Astro.props;
+const classes = ['btn', size === 'sm' && 'btn--sm', block && 'btn--block', cls].filter(Boolean).join(' ');
+---
+{href && !lead ? (
+  <a class={classes} href={href}><slot /><span class="btn__puck"><Arrow /></span></a>
+) : (
+  <button class={classes} type={type} data-lead={lead ? '' : undefined} data-topic={topic}><slot /><span class="btn__puck"><Arrow /></span></button>
+)}

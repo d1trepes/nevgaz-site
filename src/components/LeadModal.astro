@@ -1,0 +1,90 @@
+---
+// Модалка «Вызвать мастера» — одна на сайт. Открывается любым элементом с [data-lead].
+// На демо ничего не отправляет: валидация + «Спасибо, перезвоним».
+import Button from './Button.astro';
+import { url } from '../lib/url';
+---
+<dialog class="lead" data-lead-modal aria-labelledby="lead-title">
+  <button class="lead__close" type="button" aria-label="Закрыть" data-lead-close>
+    <svg width="16" height="16" viewBox="0 0 18 18" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 3l12 12M15 3 3 15" /></svg>
+  </button>
+  <form class="lead__form" novalidate data-lead-form>
+    <h2 id="lead-title" class="lead__title">Перезвоним и&nbsp;договоримся<br />о&nbsp;выезде мастера</h2>
+    <p class="lead__topic" data-lead-topic hidden></p>
+    <input type="hidden" name="topic" />
+    <label class="field">
+      <span>Как вас зовут</span>
+      <input name="name" type="text" autocomplete="given-name" required />
+    </label>
+    <label class="field">
+      <span>Телефон</span>
+      <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required data-phone />
+      <small class="field__err" hidden>Проверьте номер — нужно 10&nbsp;цифр после +7</small>
+    </label>
+    <Button type="submit" block>Перезвоните мне</Button>
+    <p class="lead__note">Нажимая кнопку, вы&nbsp;соглашаетесь с&nbsp;<a href={url('/politika/')}>политикой обработки данных</a>.</p>
+  </form>
+  <div class="lead__done" hidden data-lead-done>
+    <h2 class="lead__title">Спасибо, перезвоним</h2>
+    <p>Мастер позвонит на&nbsp;номер <b data-lead-phone></b>, уточнит задачу и&nbsp;время выезда.</p>
+  </div>
+</dialog>
+
+<style>
+  .lead {
+    width: min(100% - 32px, 520px); max-height: calc(100svh - 32px); padding: clamp(28px, 4vw, 44px);
+    border: 0; border-radius: var(--r-card); background: var(--c-surface); color: var(--c-ink);
+  }
+  .lead::backdrop { background: rgb(10 26 48 / 0.6); }
+  .lead[open] { animation: lead-in 0.35s var(--ease-out); }
+  @keyframes lead-in { from { opacity: 0; transform: translateY(16px); } }
+  .lead__close { position: absolute; top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--c-bg); display: grid; place-items: center; cursor: pointer; }
+  .lead__form, .lead__done { display: grid; gap: 16px; }
+  .lead__title { font-size: clamp(30px, 3vw, 40px); line-height: 1; padding-right: 40px; margin-bottom: 8px; }
+  .lead__topic { font-size: 15px; color: var(--c-muted); margin-top: -8px; }
+  .lead__note { font-size: 13px; color: var(--c-muted); }
+  .lead__note a { color: inherit; }
+  .lead__done p { color: #3d444e; }
+</style>
+
+<script>
+  import { maskPhone, phoneComplete } from '../lib/phone';
+
+  const dlg = document.querySelector<HTMLDialogElement>('[data-lead-modal]')!;
+  const form = dlg.querySelector<HTMLFormElement>('[data-lead-form]')!;
+  const done = dlg.querySelector<HTMLElement>('[data-lead-done]')!;
+  const topicLine = dlg.querySelector<HTMLElement>('[data-lead-topic]')!;
+  const phone = form.querySelector<HTMLInputElement>('[data-phone]')!;
+  const nameInput = form.querySelector<HTMLInputElement>('[name="name"]')!;
+  const topicInput = form.querySelector<HTMLInputElement>('[name="topic"]')!;
+  const err = form.querySelector<HTMLElement>('.field__err')!;
+  maskPhone(phone);
+
+  document.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement).closest<HTMLElement>('[data-lead]');
+    if (!trigger || trigger.closest('[data-lead-modal]')) return;
+    e.preventDefault();
+    const topic = trigger.dataset.topic || '';
+    topicInput.value = topic;
+    topicLine.hidden = !topic;
+    topicLine.textContent = topic ? `Тема: ${topic}` : '';
+    form.hidden = false; done.hidden = true;
+    dlg.showModal();
+  });
+  dlg.querySelector('[data-lead-close]')!.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const okName = nameInput.value.trim().length > 0;
+    const okPhone = phoneComplete(phone.value);
+    nameInput.setAttribute('aria-invalid', String(!okName));
+    phone.setAttribute('aria-invalid', String(!okPhone));
+    err.hidden = okPhone;
+    if (!okName) return nameInput.focus();
+    if (!okPhone) return phone.focus();
+    dlg.querySelector('[data-lead-phone]')!.textContent = phone.value;
+    form.hidden = true; done.hidden = false;
+    form.reset();
+  });
+</script>

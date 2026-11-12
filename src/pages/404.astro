@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import { url } from '../lib/url';
+---
+<Base title="Страница не найдена — НевГаз">
+  <section class="nf container">
+    <div class="grid nf__in">
+      <img class="nf__ring" src={url('/brand/logo-mark.svg')} alt="" width="240" height="240" />
+      <div class="nf__text">
+        <h1>Такой страницы<br />нет</h1>
+        <p>Возможно, адрес набран с&nbsp;ошибкой или&nbsp;страницу перенесли.</p>
+        <Button href={url('/')}>На главную</Button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { padding-block: clamp(48px, 8vw, 120px) var(--section-y); }
+  .nf__in { row-gap: 40px; align-items: center; }
+  .nf__ring { grid-column: 1 / span 4; width: 100%; max-width: 320px; height: auto; }
+  .nf__text { grid-column: 6 / -1; display: grid; gap: 24px; justify-items: start; }
+  .nf__text p { font-size: 18px; color: #3d444e; }
+  @media (max-width: 900px) { .nf__ring, .nf__text { grid-column: 1 / -1; } .nf__ring { max-width: 160px; } }
+</style>

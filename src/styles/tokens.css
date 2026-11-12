@@ -36,10 +36,11 @@
   --fs-small: 14px;
 
   /* layout */
-  --container: 1320px;
-  --gutter: clamp(16px, 3vw, 32px);
+  --container: 1680px;   /* 12 колонок, gap 24px (CLAUDE.md → «Сетка») */
+  --gutter: clamp(16px, 2vw, 28px);
+  --gap: 24px;
   --section-y: clamp(64px, 9vw, 128px);
-  --header-h: 76px;
+  --header-h: 84px;
 
   /* shape */
   --r-hero: 28px;

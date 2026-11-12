@@ -1,0 +1,37 @@
+---
+// Заглушка внутренней страницы: шапка, хлебные крошки, H1, «Страница в разработке».
+import Base from './Base.astro';
+import Button from '../components/Button.astro';
+import { url } from '../lib/url';
+
+interface Props { title: string; h1?: string; parent?: { title: string; href: string }; description?: string }
+const { title, h1 = title, parent, description } = Astro.props;
+---
+<Base title={`${title} — НевГаз`} description={description}>
+  <section class="stub container">
+    <nav class="crumbs" aria-label="Хлебные крошки">
+      <a href={url('/')}>Главная</a>
+      {parent && <><span aria-hidden="true">/</span><a href={url(parent.href)}>{parent.title}</a></>}
+      <span aria-hidden="true">/</span><span aria-current="page">{title}</span>
+    </nav>
+    <div class="grid stub__head">
+      <h1 set:html={h1} />
+      <div class="stub__side">
+        <p>Страница в&nbsp;разработке. А&nbsp;пока расскажите, что нужно сделать, — мастер перезвонит.</p>
+        <Button lead>Оставить заявку</Button>
+      </div>
+    </div>
+    <slot />
+  </section>
+</Base>
+
+<style>
+  .stub { padding-block: clamp(24px, 3vw, 40px) var(--section-y); min-height: 60svh; }
+  .crumbs { display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px; color: var(--c-muted); margin-bottom: clamp(32px, 5vw, 72px); }
+  .crumbs a { text-decoration: none; }
+  .crumbs a:hover { color: var(--c-orange-600); }
+  .stub__head { row-gap: 24px; align-items: end; }
+  .stub__head h1 { grid-column: 1 / span 7; }
+  .stub__side { grid-column: 9 / -1; display: grid; gap: 22px; justify-items: start; padding-bottom: 10px; font-size: 18px; color: #3d444e; }
+  @media (max-width: 900px) { .stub__head h1, .stub__side { grid-column: 1 / -1; } }
+</style>

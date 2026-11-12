@@ -1,32 +1,8 @@
 ---
-// ВРЕМЕННАЯ стартовая страница — проверка, что сборка и деплой работают.
-// Заменить сборкой блоков из src/components/home/* по docs/02-homepage-spec.md
+// Главная: блоки по порядку docs/02-homepage-spec.md
 import Base from '../layouts/Base.astro';
-import company from '../data/company.json';
-import { url } from '../lib/url';
+import Hero from '../components/home/Hero.astro';
 ---
-<Base>
-  <section class="kick section--dark">
-    <div class="container">
-      <img src={url('/brand/logo-horizontal-white.svg')} alt="НевГаз" width="260" height="58" />
-      <h1>Газ, отопление, вода и свет в вашем доме — под ключ</h1>
-      <p class="lead">{company.subTagline}. Сайт в разработке.</p>
-      <div class="cta">
-        <a class="btn" href={company.phones[0].href}>Позвонить {company.phones[0].display}</a>
-      </div>
-    </div>
-  </section>
+<Base heroHeader>
+  <Hero />
 </Base>
-
-<style>
-  .kick { min-height: 100svh; display: grid; align-items: center; padding-block: 64px;
-    background:
-      radial-gradient(60% 50% at 80% 60%, rgb(232 121 43 / 0.22), transparent 70%),
-      linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
-      linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
-      var(--c-navy-900);
-    color: #fff; }
-  .container { display: grid; gap: 24px; justify-items: start; }
-  h1 { max-width: 14ch; }
-  .lead { color: #b9c3d0; font-size: 19px; }
-</style>
