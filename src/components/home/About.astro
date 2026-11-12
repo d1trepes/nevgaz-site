@@ -1,0 +1,56 @@
+---
+// 7. О мастере — ref-03: заголовок слева, абзац справа, две большие фото рядом, три факта текстом.
+import { Image } from 'astro:assets';
+import master from '../../assets/ai/master-portrait.jpg';
+import boiler from '../../assets/photos/11-boiler-wall-2.jpg';
+
+const facts = [
+  { t: 'Своя бригада', d: 'Монтируем сами, без субподрядчиков. Кто приехал на&nbsp;замер, тот и&nbsp;запускает.' },
+  { t: 'Подбор оборудования', d: 'Подскажем котёл, бойлер и&nbsp;счётчик под ваш дом, поможем купить и&nbsp;привезти.' },
+  { t: 'Договор и&nbsp;гарантия', d: 'Цену фиксируем в&nbsp;договоре до&nbsp;начала работ, на&nbsp;монтаж даём гарантию.' },
+];
+---
+<section class="section about" id="o-nas">
+  <div class="container">
+    <div class="grid sec-head reveal">
+      <h2>Работаем сами —<br />и&nbsp;отвечаем за&nbsp;результат</h2>
+      <p class="sec-head__aside">Мы небольшая команда. Мастер Сергей сам выезжает на&nbsp;объект, делает работу и&nbsp;запускает систему. Всё&nbsp;— по&nbsp;договору, с&nbsp;гарантией.</p>
+    </div>
+    <div class="grid about__photos reveal">
+      <figure class="about__ph about__ph--a">
+        <Image src={master} alt="Мастер в рабочем комбинезоне у настенного газового котла" widths={[640, 960, 1280]} sizes="(min-width: 900px) 58vw, 100vw" loading="lazy" />
+      </figure>
+      <figure class="about__ph about__ph--b">
+        <Image src={boiler} alt="Котельная: настенный котёл, дымоход и счётчик" widths={[480, 768, 1080]} sizes="(min-width: 900px) 42vw, 100vw" loading="lazy" />
+        <figcaption class="caption">Котёл, дымоход и&nbsp;счётчик — котельная частного дома</figcaption>
+      </figure>
+    </div>
+    <ul class="grid about__facts reveal">
+      {facts.map((f) => (
+        <li>
+          <h3 set:html={f.t} />
+          <p set:html={f.d} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .about__photos { row-gap: var(--gap); align-items: start; }
+  .about__ph { margin: 0; display: grid; gap: 10px; }
+  .about__ph--a { grid-column: 1 / span 7; }
+  .about__ph--b { grid-column: 8 / -1; }
+  .about__ph :global(img) { width: 100%; height: clamp(360px, 38vw, 640px); object-fit: cover; border-radius: var(--r-card); }
+  .about__ph--a :global(img) { object-position: 50% 22%; }
+  .about__ph--b :global(img) { object-position: 35% 50%; }
+
+  .about__facts { margin-top: clamp(32px, 4vw, 56px); row-gap: 28px; }
+  .about__facts li { grid-column: span 4; padding-top: 20px; border-top: 1px solid var(--c-line); display: grid; gap: 8px; align-content: start; }
+  .about__facts h3 { font-size: clamp(26px, 2.2vw, 34px); font-weight: 700; }
+  .about__facts p { font-size: 16px; color: #3d444e; max-width: 36ch; }
+
+  @media (max-width: 900px) {
+    .about__ph--a, .about__ph--b, .about__facts li { grid-column: 1 / -1; }
+  }
+</style>

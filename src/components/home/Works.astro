@@ -1,0 +1,152 @@
+---
+// 6. Наши работы — ref-04 «Innovative designs»: тёмный блок, горизонтальный слайдер реальных фото, лайтбокс.
+import { Image } from 'astro:assets';
+import Arrow from '../Arrow.astro';
+import { url } from '../../lib/url';
+import p02 from '../../assets/photos/02-kitchen-gas-hob.jpg';
+import p03 from '../../assets/photos/03-facade-gas-pipe.jpg';
+import p04 from '../../assets/photos/04-chimney-brick-wall.jpg';
+import p05 from '../../assets/photos/05-chimney-steel.jpg';
+import p06 from '../../assets/photos/06-gas-pipe-warning-box.jpg';
+import p08 from '../../assets/photos/08-gas-pipe-meter-facade.jpg';
+import p09 from '../../assets/photos/09-gas-meter-brick.jpg';
+import p11 from '../../assets/photos/11-boiler-wall-2.jpg';
+import p14 from '../../assets/photos/14-radiator.jpg';
+import p15 from '../../assets/photos/15-convector.jpg';
+
+// Только реальные фото с объектов (src/assets/photos, кроме 07). Подпись — что сделано, как в техдокументации.
+const works = [
+  { src: p08, cap: 'Газопровод и&nbsp;счётчик по&nbsp;фасаду', pos: '50% 50%' },
+  { src: p03, cap: 'Газопровод под карнизом, частный дом', pos: '50% 50%' },
+  { src: p02, cap: 'Подключение газовой варочной панели', pos: '30% 50%' },
+  { src: p04, cap: 'Дымоход котла по&nbsp;кирпичной стене', pos: '50% 40%' },
+  { src: p06, cap: 'Газопровод и&nbsp;ящик «Огнеопасно газ»', pos: '50% 50%' },
+  { src: p14, cap: 'Радиатор и&nbsp;разводка отопления', pos: '50% 50%' },
+  { src: p05, cap: 'Стальной дымоход на&nbsp;кронштейне', pos: '50% 40%' },
+  { src: p09, cap: 'Ввод газа и&nbsp;счётчик у&nbsp;кирпичной стены', pos: '35% 50%' },
+  { src: p15, cap: 'Установка электроконвектора', pos: '50% 50%' },
+  { src: p11, cap: 'Настенный котёл, дымоход и&nbsp;счётчик', pos: '40% 50%' },
+];
+const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
+---
+<section class="section works" id="raboty">
+  <div class="container">
+    <div class="works__box reveal" data-works>
+      <div class="grid sec-head works__head">
+        <h2>Реальные объекты</h2>
+        <div class="sec-head__aside works__aside">
+          <a class="link-arrow" href={url('/raboty/')}>Все работы<Arrow /></a>
+          <div class="works__nav">
+            <button class="round" type="button" aria-label="Назад" data-prev disabled><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg></button>
+            <button class="round" type="button" aria-label="Вперёд" data-next><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg></button>
+          </div>
+        </div>
+      </div>
+      <ul class="works__track" data-track>
+        {works.map((w, i) => (
+          <li class="work">
+            <button class="work__btn" type="button" data-open={i} aria-label={`Открыть фото: ${plain(w.cap)}`}>
+              <Image src={w.src} alt={plain(w.cap)} widths={[400, 640]} sizes="(min-width: 1080px) 28vw, 80vw" loading="lazy" style={`object-position:${w.pos}`} />
+            </button>
+            <p class="work__cap" set:html={w.cap} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <dialog class="lb" aria-label="Фото работ" data-lightbox>
+    <div class="lb__stage">
+      {works.map((w, i) => (
+        <figure class="lb__fig" data-slide={i} hidden>
+          <Image src={w.src} alt={plain(w.cap)} widths={[720, 1080]} sizes="90vw" loading="lazy" />
+          <figcaption set:html={w.cap} />
+        </figure>
+      ))}
+    </div>
+    <button class="round lb__close" type="button" aria-label="Закрыть" data-close><svg viewBox="0 0 18 18" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 3l12 12M15 3 3 15" /></svg></button>
+    <button class="round lb__prev" type="button" aria-label="Предыдущее фото" data-lb-prev><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg></button>
+    <button class="round lb__next" type="button" aria-label="Следующее фото" data-lb-next><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg></button>
+  </dialog>
+</section>
+
+<style>
+  .works__box {
+    background: var(--c-navy-900); color: #fff; border-radius: var(--r-hero);
+    padding: clamp(28px, 3.5vw, 56px) 0 clamp(28px, 3.5vw, 56px) clamp(24px, 3vw, 48px); overflow: hidden;
+  }
+  .works__head { padding-right: clamp(24px, 3vw, 48px); }
+  .works__aside { display: flex; align-items: center; justify-content: space-between; gap: 24px; color: #fff; }
+  .works__nav { display: flex; gap: 10px; }
+  .works__nav .round:disabled { opacity: 0.35; cursor: default; }
+  @media (hover: hover) { .works__nav .round:not(:disabled):hover { background: var(--c-orange); color: #fff; } }
+
+  .works__track {
+    --card: calc((100% - 3 * var(--gap)) / 3.5);
+    display: grid; grid-auto-flow: column; grid-auto-columns: var(--card); gap: var(--gap);
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain;
+    scrollbar-width: none; padding-right: clamp(24px, 3vw, 48px);
+  }
+  .works__track::-webkit-scrollbar { display: none; }
+  .work { scroll-snap-align: start; display: grid; gap: 14px; align-content: start; }
+  .work__btn { display: block; padding: 0; border: 0; border-radius: var(--r-photo); overflow: hidden; cursor: zoom-in; background: var(--c-navy-800); }
+  .work__btn :global(img) { width: 100%; aspect-ratio: 4 / 5; height: auto; object-fit: cover; transition: transform 0.6s var(--ease-out); }
+  @media (hover: hover) { .work__btn:hover :global(img) { transform: scale(1.03); } }
+  .work__cap { font-size: 15px; line-height: 1.4; color: #c9d1dc; }
+
+  .lb { width: 100vw; height: 100svh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgb(7 20 42 / 0.96); color: #fff; }
+  .lb::backdrop { background: transparent; }
+  .lb__stage { height: 100%; display: grid; place-items: center; padding: 72px 88px; }
+  .lb__fig { margin: 0; display: grid; gap: 14px; justify-items: center; }
+  .lb__fig[hidden] { display: none; }
+  .lb__fig :global(img) { max-width: min(100%, 1080px); max-height: calc(100svh - 190px); width: auto; height: auto; border-radius: var(--r-photo); }
+  .lb__fig figcaption { font-size: 15px; color: #c9d1dc; }
+  .lb__close { position: absolute; top: 20px; right: 20px; }
+  .lb__prev, .lb__next { position: absolute; top: calc(50% - 24px); }
+  .lb__prev { left: 20px; }
+  .lb__next { right: 20px; }
+
+  @media (max-width: 1080px) { .works__track { --card: calc((100% - 2 * var(--gap)) / 2.4); } }
+  @media (max-width: 600px) {
+    .works__track { --card: 80%; }
+    .works__nav { display: none; }
+    .lb__stage { padding: 72px 16px; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-works]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-next]')!;
+    const step = () => (track.querySelector<HTMLElement>('.work')?.offsetWidth ?? 300) + 24;
+    const update = () => {
+      prev.disabled = track.scrollLeft < 4;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step() }));
+    next.addEventListener('click', () => track.scrollBy({ left: step() }));
+    track.addEventListener('scroll', update, { passive: true });
+    update();
+  });
+
+  const lb = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+  if (lb) {
+    const slides = [...lb.querySelectorAll<HTMLElement>('[data-slide]')];
+    let cur = 0;
+    const show = (i: number) => {
+      cur = (i + slides.length) % slides.length;
+      slides.forEach((s, k) => (s.hidden = k !== cur));
+    };
+    document.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((b) =>
+      b.addEventListener('click', () => { show(+b.dataset.open!); lb.showModal(); }));
+    lb.querySelector('[data-close]')!.addEventListener('click', () => lb.close());
+    lb.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(cur - 1));
+    lb.querySelector('[data-lb-next]')!.addEventListener('click', () => show(cur + 1));
+    lb.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(cur - 1);
+      if (e.key === 'ArrowRight') show(cur + 1);
+    });
+    lb.addEventListener('click', (e) => { if (e.target === lb || (e.target as HTMLElement).classList.contains('lb__stage')) lb.close(); });
+  }
+</script>

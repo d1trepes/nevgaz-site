@@ -1,0 +1,63 @@
+---
+// 5. Цены — ref-02: три белые карточки с ценами из company.json + одна тёмная с расчётом.
+import Button from '../Button.astro';
+import company from '../../data/company.json';
+import { url } from '../../lib/url';
+import { nb } from '../../lib/typo';
+
+// что входит — по услугам из брифа (company.json → services2gis / servicesFromStories)
+const included: Record<string, string> = {
+  'Проведение газа в дом': 'Трасса по&nbsp;участку, газопровод по&nbsp;фасаду, ввод, счётчик, подключение плиты и&nbsp;котла.',
+  'Установка котельного оборудования': 'Настенный котёл, дымоход и&nbsp;обвязка, пусконаладка и&nbsp;первый запуск.',
+  'Электромонтажные работы': 'Проводка в&nbsp;частном доме, сборка щита, подключение оборудования.',
+};
+// «10 000 – 100 000 ₽» → две строки, тире в конце первой
+const priceLines = (p: string) => nb(p).split(/\s*–\s*/).map((part, i, a) => (i < a.length - 1 ? `${part}&nbsp;–` : part));
+---
+<section class="section prices" id="ceny">
+  <div class="container">
+    <div class="grid sec-head reveal">
+      <h2>Сколько стоит</h2>
+      <p class="sec-head__aside">Ориентиры с&nbsp;нашей страницы в&nbsp;2ГИС. Точная&nbsp;цена — после выезда и&nbsp;замера.</p>
+    </div>
+    <ul class="grid prices__grid reveal">
+      {company.prices.map((p) => (
+        <li class="price">
+          <h3 class="price__title" set:html={nb(p.title)} />
+          <p class="price__text" set:html={included[p.title] ?? ''} />
+          <p class="price__value">{priceLines(p.price).map((l) => <span set:html={l} />)}</p>
+        </li>
+      ))}
+      <li class="price price--dark">
+        <h3 class="price__title price__title--big">Нет вашей услуги?<br />Посчитаем под&nbsp;ваш&nbsp;дом</h3>
+        <p class="price__text">Вода, канализация, тёплый пол, сварка и&nbsp;металлоконструкции — смету соберём после замера.</p>
+        <Button lead topic="расчёт под мой дом">Получить расчёт</Button>
+      </li>
+    </ul>
+    <p class="prices__note caption reveal">Цены не&nbsp;являются публичной офертой. <a href={url('/ceny/')}>Все цены</a></p>
+  </div>
+</section>
+
+<style>
+  .prices__grid { row-gap: var(--gap); }
+  .price {
+    grid-column: span 3; display: flex; flex-direction: column; gap: 14px;
+    min-height: clamp(340px, 26vw, 400px); padding: clamp(24px, 2.2vw, 32px);
+    background: var(--c-surface); border-radius: var(--r-card);
+  }
+  .price__title { font: 600 20px/1.25 var(--f-body); }
+  .price__text { font-size: 15px; line-height: 1.5; color: var(--c-muted); max-width: 32ch; }
+  .price__value {
+    margin-top: auto; display: grid;
+    font: 600 clamp(40px, 3.6vw, 60px)/0.98 var(--f-display); letter-spacing: -0.005em; white-space: nowrap;
+  }
+  .price--dark { background: var(--c-navy-900); color: #fff; }
+  .price__title--big { font: 700 clamp(30px, 2.4vw, 40px)/1 var(--f-display); }
+  .price--dark .price__text { color: #b9c3d0; }
+  .price--dark :global(.btn) { margin-top: auto; align-self: flex-start; }
+  .prices__note { margin-top: 20px; }
+  .prices__note a { color: var(--c-ink); margin-left: 12px; }
+
+  @media (max-width: 1080px) { .price { grid-column: span 6; } }
+  @media (max-width: 600px) { .price { grid-column: 1 / -1; min-height: 0; } }
+</style>
