@@ -87,6 +87,11 @@ const widget = `https://yandex.ru/map-widget/v1/?ll=${encodeURIComponent(ll)}&z=
 
   @media (max-width: 900px) {
     .contacts__info, .map { grid-column: 1 / -1; }
+    /* заголовок → карта → адрес, телефоны, почта */
+    .contacts__info { display: contents; }
+    .contacts__info > * { grid-column: 1 / -1; order: 2; }
+    .contacts__info h2 { order: 0; margin-bottom: 0; }
+    .map { order: 1; }
     /* высоту задаёт распорка, а не aspect-ratio: Safari схлопывал ячейку без содержимого в 0 */
     .map { min-height: 0; align-self: start; }
     .map::before { content: ""; display: block; padding-top: 75%; }
@@ -96,7 +101,7 @@ const widget = `https://yandex.ru/map-widget/v1/?ll=${encodeURIComponent(ll)}&z=
   }
   /* телефон: карта 4:5, кнопки друг под другом во всю ширину у нижнего края */
   @media (max-width: 599px) {
-    .contacts__info { gap: 24px; }
+    .contacts__body { row-gap: 24px; }
     .contacts__tel, .contacts__mail { display: flex; align-items: center; min-height: 48px; }
     .contacts__tel { font-size: 36px; }
     .map { border-radius: 18px; }

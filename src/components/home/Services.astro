@@ -48,6 +48,7 @@ const cards = [
         </li>
       ))}
     </ul>
+    <div class="services__more"><Button href={url('/uslugi/')} variant="ghost">Все услуги</Button></div>
   </div>
 </section>
 
@@ -77,6 +78,12 @@ const cards = [
 
   @media (max-width: 1080px) { .svc { grid-column: span 6; } }
   /* телефон: горизонтальный свайп без JS, карточка 82%, виден край следующей */
+  .services__more { display: none; }
+  /* телефон: «Все услуги» — под карточками */
+  @media (max-width: 599px) {
+    .services :global(.sec-head__btn) { display: none; }
+    .services__more { display: block; margin-top: 16px; }
+  }
   @media (max-width: 599px) {
     .services__grid {
       display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;

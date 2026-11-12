@@ -119,7 +119,16 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
       const desk = () => window.matchMedia('(min-width: 901px)').matches;
       b.addEventListener('mouseenter', () => { if (desk()) show(b.dataset.step!); });
       b.addEventListener('focus', () => { if (desk()) show(b.dataset.step!); });
-      b.addEventListener('click', () => show(b.dataset.step!));
+      b.addEventListener('click', () => {
+        // мобилка: повторный тап по открытому шагу закрывает его
+        const li = b.parentElement!;
+        if (!desk() && li.classList.contains('is-open')) {
+          li.classList.remove('is-open'); b.classList.remove('is-active'); b.setAttribute('aria-pressed', 'false');
+          li.querySelector('.step__more')?.setAttribute('aria-hidden', 'true');
+          return;
+        }
+        show(b.dataset.step!);
+      });
     });
   });
 </script>
