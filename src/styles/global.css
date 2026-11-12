@@ -12,8 +12,8 @@ body {
 img, svg, video { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
 button { font: inherit; }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 800; margin: 0; text-wrap: balance; }
-h1 { font-size: var(--fs-h1); line-height: 0.98; letter-spacing: -0.01em; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; margin: 0; text-wrap: balance; }
+h1 { font-size: var(--fs-h1); line-height: 0.92; letter-spacing: -0.01em; }
 h2 { font-size: var(--fs-h2); line-height: 1.05; }
 h3 { font-size: var(--fs-h3); line-height: 1.2; font-weight: 700; }
 p { margin: 0; text-wrap: pretty; }
@@ -27,7 +27,7 @@ p { margin: 0; text-wrap: pretty; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-height: 56px; padding: 0 28px; border-radius: var(--r-btn); border: 0; cursor: pointer;
-  font: 700 16px/1 var(--f-display); text-transform: uppercase; letter-spacing: 0.04em; text-decoration: none;
+  font: 600 17px/1 var(--f-body); letter-spacing: 0; text-decoration: none;
   background: var(--c-orange); color: #fff; transition: background 0.2s, transform 0.2s var(--ease-out);
 }
 .btn--ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px currentColor; }

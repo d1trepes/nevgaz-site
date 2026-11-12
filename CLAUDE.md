@@ -15,7 +15,7 @@
 - **Astro 7** (уже установлен), статическая сборка, многостраничник через `src/pages`.
 - Стили: обычный CSS + CSS-переменные из `tokens.css`, scoped `<style>` в компонентах. Без Tailwind и UI-китов.
 - JS: ванильный, островки только где нужно. Разрешено: `gsap` (+ScrollTrigger) для хиро-схемы и таймлайна, `lenis` — опционально. Больше зависимостей не тащить без причины.
-- Шрифты: `@fontsource/roboto-condensed`, `@fontsource/manrope` (self-host).
+- Шрифты: **Fira Sans Extra Condensed** (заголовки, цифры) + **Golos Text** (текст) — уже подключены в `Base.astro`. Не менять на Inter / Onest / Unbounded / Manrope / Roboto.
 - Картинки: только `astro:assets`.
 
 ## Первые шаги

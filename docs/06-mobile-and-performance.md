@@ -15,7 +15,7 @@
 ## Бюджет производительности (Lighthouse mobile ≥ 90 по всем 4 метрикам)
 - LCP ≤ 2.5с, CLS ≤ 0.05, INP ≤ 200мс. JS на главной ≤ 80 КБ gz (без видео).
 - LCP-элемент хиро: H1 или постер — постер `fetchpriority="high"`, остальное lazy.
-- Шрифты self-host, subset `cyrillic` + `latin`, preload только Roboto Condensed 800.
+- Шрифты self-host, subset `cyrillic` + `latin`, preload только Fira Sans Extra Condensed 700 (cyrillic).
 - Видео: `preload="none"` + старт после `load`, не грузить при `navigator.connection.saveData` и при `prefers-reduced-motion`.
 - Карта 2ГИС — только по клику/при приближении к экрану.
 - Изображения: `astro:assets`, `widths=[480, 768, 1080, 1440]`, `sizes` честные.
