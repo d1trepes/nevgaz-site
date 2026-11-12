@@ -62,20 +62,19 @@ p { margin: 0; }
 .sheet .btn { margin-top: auto; align-self: flex-start; }
 
 /* ---------- хиро ---------- */
-.hero-head { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 48px; align-items: end; padding: clamp(20px, 3vw, 44px) 4px clamp(22px, 2.4vw, 34px); }
-.hero-head h1 { font-size: clamp(54px, 7.4vw, 124px); }
-.hero-side { display: grid; gap: 22px; justify-items: start; padding-bottom: 8px; }
-.hero-side p { font-size: 18px; color: #3d444e; max-width: 28em; }
-
+.hero-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 20px; align-items: end; padding: clamp(20px, 3vw, 44px) 0 clamp(22px, 2.4vw, 34px); }
+.hero-head h1 { grid-column: 1 / span 7; font-size: clamp(54px, 7vw, 116px); }
+.hero-side { grid-column: 9 / -1; display: grid; gap: 22px; justify-items: start; padding-bottom: 10px; }
+.hero-side p { font-size: 18px; color: #3d444e; }
 .stage { position: relative; border-radius: 28px; overflow: hidden; background: #24324c; }
-.house { position: relative; width: 100%; aspect-ratio: 3 / 2; }
-.house img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .9s var(--ease), filter .9s var(--ease); }
+.house { position: relative; width: 100%; height: clamp(420px, calc(100svh - 330px), 720px); }
+.house img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; display: block; transition: opacity .9s var(--ease), filter .9s var(--ease); }
 .house .layer { opacity: 0; }
 .house[data-heat="off"] .l-heat,
 .house[data-light="off"] .l-light,
 .house[data-gas="off"] .l-gas,
 .house[data-water="off"] .l-water { opacity: 1; }
-.house[data-light="off"] .l-heat, .house[data-light="off"] .l-gas, .house[data-light="off"] .l-water { filter: brightness(.34) saturate(.6); }
+.house[data-light="off"] .l-heat, .house[data-light="off"] .l-gas, .house[data-light="off"] .l-water { opacity: 0; }
 
 .controls { position: absolute; z-index: 2; left: 18px; right: 18px; bottom: 18px; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
 .status { max-width: 420px; background: rgba(12,20,34,.66); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: #fff; border-radius: 14px; padding: 12px 16px; font-size: 14px; line-height: 1.45; transition: opacity .35s var(--ease); }
@@ -95,7 +94,9 @@ p { margin: 0; }
   .nav__burger { display: grid; }
 }
 @media (max-width: 900px) {
-  .hero-head { grid-template-columns: 1fr; gap: 20px; }
+  .hero-head { grid-template-columns: 1fr; }
+  .hero-head h1, .hero-side { grid-column: 1 / -1; }
+  .house { height: auto; aspect-ratio: 3 / 2; }
   .controls { position: static; flex-direction: column-reverse; align-items: stretch; padding: 10px; gap: 10px; }
   .switches { display: grid; grid-template-columns: 1fr 1fr; }
   .sw { justify-content: flex-start; }
@@ -130,10 +131,10 @@ p { margin: 0; }
 
   <section class="hero" aria-label="Главный экран">
     <div class="hero-head">
-      <h1>Проведём газ в&nbsp;ваш дом</h1>
+      <h1>Проведём газ<br>в&nbsp;ваш дом</h1>
       <div class="hero-side">
-        <p>А дальше котёл, отопление, вода и электрика. Одна бригада от проекта до запуска — в Невинномысске, по краю и в Черкесске.</p>
-        <a class="btn btn--orange" href="#">Вызвать мастера<span class="btn__puck"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M5 4h7v7"/></svg></span></a>
+        <p>А&nbsp;дальше котёл, отопление, вода и&nbsp;электрика. Одна бригада от&nbsp;проекта до&nbsp;запуска — в&nbsp;Невинномысске, по&nbsp;краю и&nbsp;в&nbsp;Черкесске.</p>
+        <a class="btn btn--orange" href="#">Рассчитать стоимость<span class="btn__puck"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M5 4h7v7"/></svg></span></a>
       </div>
     </div>
     <div class="stage">
