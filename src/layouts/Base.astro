@@ -1,0 +1,58 @@
+---
+// Базовый layout. Header/Footer/LeadModal подключить сюда, когда будут готовы (см. CLAUDE.md).
+import '@fontsource/roboto-condensed/cyrillic-700.css';
+import '@fontsource/roboto-condensed/cyrillic-800.css';
+import '@fontsource/manrope/cyrillic-400.css';
+import '@fontsource/manrope/cyrillic-600.css';
+import '../styles/global.css';
+import company from '../data/company.json';
+import { url } from '../lib/url';
+
+interface Props { title?: string; description?: string; }
+const {
+  title = 'НевГаз — газификация, отопление и водоснабжение домов под ключ в Невинномысске',
+  description = 'Проектируем, монтируем и запускаем газ, отопление, воду и электрику в частных домах. Невинномысск, Ставропольский край, Черкесск. Гарантия на работы.',
+} = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  name: company.brand,
+  slogan: company.tagline,
+  telephone: company.phones.map((p) => p.href.replace('tel:', '')),
+  email: company.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: company.address.street,
+    addressLocality: company.address.city,
+    addressRegion: company.address.region,
+    postalCode: company.address.zip,
+    addressCountry: 'RU',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: company.address.geo.lat, longitude: company.address.geo.lon },
+  areaServed: company.geography,
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: company.rating.value, reviewCount: company.rating.count },
+};
+---
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0A1A30" />
+    <link rel="icon" type="image/svg+xml" href={url('/brand/favicon.svg')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">К содержимому</a>
+    <slot name="header" />
+    <main id="main"><slot /></main>
+    <slot name="footer" />
+  </body>
+</html>

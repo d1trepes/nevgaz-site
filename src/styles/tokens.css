@@ -1,0 +1,60 @@
+/* НевГаз — дизайн-токены. Описание: docs/03-design-system.md */
+:root {
+  /* brand */
+  --c-orange: #e8792b;
+  --c-orange-600: #d2651a;
+  --c-orange-glow: #ffb25e;
+  --c-flame: #3d8bff;
+
+  /* navy */
+  --c-navy-950: #07142a;
+  --c-navy-900: #0a1a30;
+  --c-navy-800: #0e2340;
+  --c-navy-600: #1d3d66;
+
+  /* neutrals */
+  --c-ink: #14171c;
+  --c-muted: #5b6573;
+  --c-line: #e3e8ef;
+  --c-bg: #ffffff;
+  --c-bg-soft: #f4f6f9;
+
+  /* system colors for hero scheme */
+  --sys-gas: var(--c-orange);
+  --sys-heat: #ff5a36;
+  --sys-water: #43b4ff;
+  --sys-power: #ffd23f;
+
+  /* type */
+  --f-display: 'Roboto Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --f-body: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-h1: clamp(40px, 6vw, 84px);
+  --fs-h2: clamp(30px, 4vw, 52px);
+  --fs-h3: clamp(20px, 2vw, 26px);
+  --fs-body: 17px;
+  --fs-small: 14px;
+
+  /* layout */
+  --container: 1280px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --section-y: clamp(72px, 10vw, 140px);
+  --header-h: 76px;
+
+  /* shape */
+  --r-card: 20px;
+  --r-photo: 16px;
+  --r-btn: 12px;
+  --r-pill: 999px;
+  --shadow-card: 0 1px 2px rgb(10 26 48 / 0.06), 0 12px 32px -12px rgb(10 26 48 / 0.18);
+
+  /* motion */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 600ms;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --fs-body: 16px;
+    --header-h: 60px;
+  }
+}
