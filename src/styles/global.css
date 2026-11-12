@@ -93,8 +93,16 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .sec-head h2, .sec-head__aside, .sec-head__title, .sec-head__btn { grid-column: 1 / -1; }
   .sec-head__btn { justify-self: start; }
 }
-@media (max-width: 600px) {
-  .btn { max-width: 100%; height: auto; min-height: 56px; padding-block: 8px; white-space: normal; line-height: 1.2; text-align: left; }
+/* Телефон: каждая кнопка — во всю ширину колонки, текст слева, шайба справа, 56px.
+   Две кнопки в блоке встают друг под другом (см. .btn-row). */
+@media (max-width: 599px) {
+  .btn, .btn--sm {
+    display: flex; width: 100%; max-width: none; height: 56px; min-height: 56px;
+    justify-content: space-between; padding: 0 8px 0 22px; font-size: 16px;
+    text-align: left; white-space: nowrap;
+  }
+  .btn .btn__puck, .btn--sm .btn__puck { width: 40px; height: 40px; }
+  .btn-row { display: grid !important; grid-template-columns: minmax(0, 1fr); gap: 10px; width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

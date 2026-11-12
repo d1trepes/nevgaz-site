@@ -73,4 +73,19 @@ const year = 2026;
     .ftr__col--services, .ftr__col--company, .ftr__col--contacts { grid-column: 1 / -1; }
     .ftr__demo { margin-left: 0; }
   }
+  /* телефон: колонки стопкой, ссылки с тап-зоной 48px */
+  @media (max-width: 599px) {
+    .ftr { padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px); }
+    .ftr__top { row-gap: 32px; }
+    .ftr__brand img { height: 52px; }
+    .ftr__h { display: flex; align-items: center; min-height: 48px; margin-bottom: 0; }
+    .ftr__h a { display: inline-flex; align-items: center; min-height: 48px; }
+    .ftr__col ul { gap: 0; font-size: 16px; }
+    .ftr__col li > a { display: flex; align-items: center; min-height: 48px; }
+    .ftr__col li > a.ftr__tel { font-size: 26px; }
+    .ftr__addr { margin-top: 8px; }
+    .ftr__bottom { flex-direction: column; gap: 0; }
+    .ftr__bottom > * { display: flex; align-items: center; min-height: 32px; }
+    .ftr__bottom > a { min-height: 48px; }
+  }
 </style>
