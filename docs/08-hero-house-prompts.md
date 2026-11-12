@@ -69,3 +69,10 @@ frost patterns on the window glass, icy white frost crystals on the glass only, 
 - Поверх — вырезки по маскам из `03/04/05` (светлый набор) или `06/07/08` (тёмный набор). Маски считаются автоматически скриптом: разница пикселей с основой > порога, расширение 6 px, растушёвка 4 px — так в вырезку попадает только то, что реально изменилось.
 - Отопление выкл: вырезка инея + полупрозрачный голубой оверлей `rgba(120,170,230,.12)` на область комнат (mix-blend: soft-light).
 - Мобилка: тот же кадр 21:9, обрезка по центру до 4:3 (`object-fit: cover`, `object-position` по центру дома).
+
+## Доработка (12.11): кадры, которые были собраны синтетически и дают баги
+Сейчас `water-d`, `frost-d` и `gas-l` синтезированы из других кадров. `water-d` выглядит как светлое пятно в тёмной ванной, `water-l` с каплями на стекле. Заменить на настоящие правки:
+- **07 dark-water-off** — правка 02, выделить только струю (без лейки): `shower turned off, no water falling, no droplets, dry clear glass, dark bathroom lit only by dim blue evening light from outside, same darkness as the rest of the room, keep the shower head exactly the same, keep everything else exactly the same, same camera, same lighting, same colors`
+- **04 water-off (переделать)** — правка 01, струя и стекло душа: `shower turned off, no water falling, no droplets on the glass, dry clear glass and dry tiles, warm interior light exactly as before, keep the shower head exactly the same, keep everything else exactly the same, same camera, same lighting, same colors`
+- **08 dark-heat-off** — правка 02, только стёкла окон: `frost patterns on the window glass, icy white frost crystals on the glass only, dim blue evening light, room stays dark, keep window frames and curtains exactly the same, keep everything else exactly the same, same camera, same colors`
+После получения — пересобрать слои `water-l`, `water-d`, `frost-d` (маска = разница с основой в зоне душа / окон).
