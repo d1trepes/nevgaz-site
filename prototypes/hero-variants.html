@@ -27,7 +27,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; }
 h1 { font-family: var(--f-display); font-weight: 700; margin: 0; line-height: .9; letter-spacing: -.01em; }
 p { margin: 0; }
-.wrap { width: 100%; max-width: 1680px; margin-inline: auto; padding-left: max(clamp(16px, 2vw, 28px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 2vw, 28px), env(safe-area-inset-right, 0px)); padding-block: 0 48px; }
+.wrap { width: 100%; max-width: clamp(820px, calc((100svh - 352px) * 2.2277 + 56px), 1680px); margin-inline: auto; padding-left: max(clamp(16px, 2vw, 28px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 2vw, 28px), env(safe-area-inset-right, 0px)); padding-block: 0 24px; }
 :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 8px; }
 
 .btn { display: inline-flex; align-items: center; gap: 14px; height: 56px; padding: 0 8px 0 26px; border-radius: 999px; border: 0; cursor: pointer; font: 600 16px/1 var(--f-body); white-space: nowrap; transition: background .2s; }
@@ -62,12 +62,12 @@ p { margin: 0; }
 .sheet .btn { margin-top: auto; align-self: flex-start; }
 
 /* ---------- хиро ---------- */
-.hero-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 20px; align-items: end; padding: clamp(20px, 3vw, 44px) 0 clamp(22px, 2.4vw, 34px); }
-.hero-head h1 { grid-column: 1 / span 7; font-size: clamp(54px, 7vw, 116px); }
+.hero-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 20px; align-items: end; padding: clamp(12px, 2.4svh, 32px) 0 clamp(18px, 2.6svh, 28px); }
+.hero-head h1 { grid-column: 1 / span 7; font-size: clamp(48px, min(7vw, 10.5svh), 112px); }
 .hero-side { grid-column: 9 / -1; display: grid; gap: 22px; justify-items: start; padding-bottom: 10px; }
 .hero-side p { font-size: 18px; color: #3d444e; }
 .stage { position: relative; border-radius: 28px; overflow: hidden; background: #6f87b8; }
-.house { position: relative; width: 100%; aspect-ratio: 1448 / 650; max-height: calc(100svh - 300px); min-height: 360px; margin-inline: auto; }
+.house { position: relative; width: 100%; aspect-ratio: 1448 / 650; }
 .house img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block; transition: opacity .9s var(--ease); }
 .house .layer { opacity: 0; }
 .house[data-light="off"] .l-dark { opacity: 1; }
