@@ -1,7 +1,7 @@
 ---
 // 10. Финальная форма — тёмный блок с фото дома, слева заголовок, справа белая карточка-форма.
 // На демо ничего не отправляет: валидация + «Спасибо, перезвоним».
-import { Image } from 'astro:assets';
+import Img from '../Img.astro';
 import Button from '../Button.astro';
 import dusk from '../../assets/ai/house-dusk.jpg';
 import { url } from '../../lib/url';
@@ -11,7 +11,7 @@ const needs = ['Газ', 'Отопление', 'Вода', 'Электрика',
 <section class="section cta" id="zayavka">
   <div class="container">
     <div class="cta__box reveal">
-      <Image class="cta__bg" src={dusk} alt="" widths={[768, 1080, 1440, 1920]} sizes="(min-width: 1680px) 1624px, 100vw" loading="lazy" />
+      <Img class="cta__bg" src={dusk} alt="" widths={[768, 1080, 1440, 1920]} sizes="(min-width: 1680px) 1624px, 100vw" loading="lazy" />
       <div class="grid cta__grid">
         <div class="cta__text">
           <h2>Расскажите,<br /><span class="nw">что нужно сделать</span></h2>

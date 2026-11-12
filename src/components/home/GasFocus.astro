@@ -1,6 +1,6 @@
 ---
 // 4. Газификация частного дома — ref-05 bento: большое фото с заголовком, белая карточка, два фото с объектов.
-import { Image } from 'astro:assets';
+import Img from '../Img.astro';
 import Button from '../Button.astro';
 import dusk from '../../assets/ai/house-dusk.jpg';
 import warn from '../../assets/photos/06-gas-pipe-warning-box.jpg';
@@ -16,7 +16,7 @@ const points = [
 <section class="section gas" id="gazifikaciya">
   <div class="container grid gas__grid reveal">
     <div class="gas__hero">
-      <Image class="gas__hero-img" src={dusk} alt="Кирпичный дом вечером, свет в окнах, газовая труба по фасаду" widths={[768, 1080, 1440]} sizes="(min-width: 1081px) 58vw, 100vw" loading="lazy" />
+      <Img class="gas__hero-img" src={dusk} alt="Кирпичный дом вечером, свет в окнах, газовая труба по фасаду" widths={[768, 1080, 1440]} sizes="(min-width: 1081px) 58vw, 100vw" loading="lazy" />
       <h2>Газ в&nbsp;дом —<br />без беготни</h2>
     </div>
 
@@ -36,10 +36,10 @@ const points = [
     </div>
 
     <figure class="gas__ph">
-      <Image src={warn} alt="Газовая труба и жёлтый ящик с надписью «Огнеопасно газ» на стене" widths={[320, 640]} sizes="(min-width: 1081px) 20vw, 50vw" loading="lazy" />
+      <Img src={warn} alt="Газовая труба и жёлтый ящик с надписью «Огнеопасно газ» на стене" widths={[320, 640]} sizes="(min-width: 1081px) 20vw, 50vw" loading="lazy" />
     </figure>
     <figure class="gas__ph">
-      <Image src={meter} alt="Газопровод и счётчик у кирпичной стены" widths={[320, 640]} sizes="(min-width: 1081px) 20vw, 50vw" loading="lazy" />
+      <Img src={meter} alt="Газопровод и счётчик у кирпичной стены" widths={[320, 640]} sizes="(min-width: 1081px) 20vw, 50vw" loading="lazy" />
     </figure>
   </div>
 </section>

@@ -77,6 +77,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .link-arrow svg { width: 12px; height: 12px; }
 @media (hover: hover) { .link-arrow:hover { color: var(--c-orange-600); } }
 
+/* размытое превью картинки до загрузки (см. Img.astro) */
+.is-near img.ph { background: var(--ph); }
+
 /* служебная подпись как в техдокументации */
 .caption { font-size: 13px; line-height: 1.4; color: var(--c-muted); }
 

@@ -1,6 +1,6 @@
 ---
 // 6. Наши работы — ref-04 «Innovative designs»: тёмный блок, горизонтальный слайдер реальных фото, лайтбокс.
-import { Image } from 'astro:assets';
+import Img from '../Img.astro';
 import Button from '../Button.astro';
 import { url } from '../../lib/url';
 import p02 from '../../assets/photos/02-kitchen-gas-hob.jpg';
@@ -46,7 +46,7 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
         {works.map((w, i) => (
           <li class="work">
             <button class="work__btn" type="button" data-open={i} aria-label={`Открыть фото: ${plain(w.cap)}`}>
-              <Image src={w.src} alt={plain(w.cap)} widths={[400, 640, 1080]} sizes="(min-width: 1081px) 28vw, (min-width: 600px) 66vw, 124vw" loading="lazy" style={`object-position:${w.pos}`} />
+              <Img src={w.src} alt={plain(w.cap)} widths={[400, 640, 1080]} sizes="(min-width: 1081px) 28vw, (min-width: 600px) 66vw, 124vw" loading="lazy" style={`object-position:${w.pos}`} />
             </button>
             <p class="work__cap" set:html={w.cap} />
           </li>
@@ -60,7 +60,7 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
     <div class="lb__stage">
       {works.map((w, i) => (
         <figure class="lb__fig" data-slide={i} hidden>
-          <Image src={w.src} alt={plain(w.cap)} widths={[720, 1080]} sizes="90vw" loading="lazy" />
+          <Img src={w.src} alt={plain(w.cap)} widths={[720, 1080]} sizes="90vw" loading="lazy" placeholder={false} />
           <figcaption set:html={w.cap} />
         </figure>
       ))}

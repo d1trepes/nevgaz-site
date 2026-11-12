@@ -14,6 +14,8 @@ import frostD from '../../assets/hero/frost-d.webp';
 
 const widths = [768, 1080, 1448];
 const sizes = '(max-width: 1680px) 100vw, 1624px';
+// скрытые слои (нужны только после щелчка выключателем): на телефоне — файл 768px, как в docs/06
+const layerSizes = '(max-width: 600px) 256px, ' + sizes;
 const layers = [
   { src: dark, cls: 'layer l-dark' },
   { src: gasL, cls: 'layer s-gas-l' }, { src: gasD, cls: 'layer s-gas-d' },
@@ -33,7 +35,7 @@ const layers = [
     <div class="stage">
       <div class="house" id="house" data-gas="on" data-heat="on" data-water="on" data-light="on" role="img" aria-label="Одноэтажный дом в разрезе: ванная, кухня, котельная, гостиная и спальня">
         <Image src={base} alt="" widths={widths} sizes={sizes} loading="eager" fetchpriority="high" />
-        {layers.map((l) => <Image class={l.cls} src={l.src} alt="" widths={widths} sizes={sizes} loading="lazy" decoding="async" fetchpriority="low" />)}
+        {layers.map((l) => <Image class={l.cls} src={l.src} alt="" widths={widths} sizes={layerSizes} loading="lazy" decoding="async" fetchpriority="low" />)}
         <span class="chill" aria-hidden="true"></span>
       </div>
       <div class="controls">

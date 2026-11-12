@@ -50,7 +50,7 @@ const schema = {
         {faq.map((f, i) => (
           <details class="qa" open={i === 0}>
             <summary><span set:html={f.q} /><svg class="qa__icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M10 2.5v15M2.5 10h15" /></svg></summary>
-            <p set:html={f.a} />
+            <div class="qa__a"><p set:html={f.a} /></div>
           </details>
         ))}
       </div>
@@ -64,6 +64,34 @@ const schema = {
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 </section>
 
+<script>
+  // Плавное раскрытие ответа: высота анимируется, <details> остаётся нативным (доступность, поиск по странице)
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll<HTMLDetailsElement>('.qa').forEach((d) => {
+    const sum = d.querySelector('summary')!;
+    const body = d.querySelector<HTMLElement>('.qa__a')!;
+    let anim: Animation | null = null;
+    sum.addEventListener('click', (e) => {
+      if (reduce.matches || !body.animate) return;
+      e.preventDefault();
+      anim?.cancel();
+      const opening = !d.open || d.classList.contains('is-closing');
+      const from = d.open ? body.getBoundingClientRect().height : 0; // у закрытого <details> браузер отдаёт полную высоту — стартуем с нуля
+      if (opening) {
+        d.classList.remove('is-closing');
+        d.open = true;
+        const to = body.scrollHeight;
+        anim = body.animate([{ height: `${from}px`, opacity: 0.2 }, { height: `${to}px`, opacity: 1 }], { duration: 380, easing: 'cubic-bezier(.2,.7,.2,1)' });
+      } else {
+        d.classList.add('is-closing');
+        anim = body.animate([{ height: `${from}px`, opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 300, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+        const a = anim;
+        a.onfinish = () => { d.open = false; d.classList.remove('is-closing'); a.cancel(); };
+      }
+    });
+  });
+</script>
+
 <style>
   .faq__body { align-items: start; row-gap: 32px; }
   .faq__list { grid-column: 1 / span 8; border-top: 1px solid var(--c-line); }
@@ -76,8 +104,9 @@ const schema = {
   .qa summary::-webkit-details-marker { display: none; }
   /* плюс одним SVG — одинаковый у всех пунктов; при открытии плавно поворачивается в крестик */
   .qa__icon { flex: none; width: 22px; height: 22px; transition: transform 0.45s var(--ease-out); }
-  .qa[open] .qa__icon { transform: rotate(135deg); }
+  .qa[open]:not(.is-closing) .qa__icon { transform: rotate(135deg); }
   @media (hover: hover) { .qa summary:hover { color: var(--c-orange-600); } }
+  .qa__a { overflow: hidden; }
   .qa p { padding: 0 64px 26px 0; font-size: 17px; color: #3d444e; max-width: 70ch; }
 
   .faq__ask {

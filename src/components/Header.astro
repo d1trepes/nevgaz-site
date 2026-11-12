@@ -2,7 +2,7 @@
 // Шапка: логотип · Услуги ▾ · Цены · Наши работы · О компании · Контакты · «Вызвать мастера».
 // Sticky: при скролле вниз прячется, вверх — появляется. «Услуги ▾» — панель с 5 направлениями и фото.
 // hero=true — ширина как у хиро на главной (контейнер считается от высоты окна, см. 02-homepage-spec, блок 1).
-import { Image } from 'astro:assets';
+import Img from './Img.astro';
 import Button from './Button.astro';
 import { mainNav, services } from '../data/nav';
 import company from '../data/company.json';
@@ -30,7 +30,7 @@ const isActive = (href: string) => path.startsWith(url(href));
                 {item.children.map((s) => (
                   <li>
                     <a class="drop__item" href={url(s.href)}>
-                      <span class="drop__ph"><Image src={s.photo} alt="" widths={[240, 480]} sizes="240px" loading="lazy" /></span>
+                      <span class="drop__ph"><Img src={s.photo} alt="" widths={[240, 480]} sizes="240px" loading="lazy" placeholder={false} /></span>
                       <span class="drop__t">{nb(s.title)}</span>
                     </a>
                   </li>

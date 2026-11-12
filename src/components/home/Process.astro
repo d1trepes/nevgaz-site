@@ -1,6 +1,6 @@
 ---
 // 3. Как мы работаем — ref-04: нумерованный список с тонкими линиями + большое фото, меняется по шагам.
-import { Image } from 'astro:assets';
+import Img from '../Img.astro';
 import request from '../../assets/ai/step-request.jpg';
 import meter from '../../assets/ai/meter-check.jpg';
 import estimate from '../../assets/ai/step-estimate.jpg';
@@ -33,7 +33,7 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
             <div class="step__more" aria-hidden={i === 0 ? undefined : 'true'}>
               <div class="step__more-in">
                 <p set:html={s.d} />
-                <Image src={s.photo} alt={plain(s.alt)} widths={[480, 768, 1080]} sizes="(min-width: 901px) 1px, 100vw" loading="lazy" style={`object-position:${s.pos}`} />
+                <Img src={s.photo} alt={plain(s.alt)} widths={[480, 768, 1080]} sizes="(min-width: 901px) 1px, 100vw" loading="lazy" style={`object-position:${s.pos}`} />
               </div>
             </div>
           </li>
@@ -41,7 +41,7 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
       </ol>
       <div class="process__photo">
         {steps.map((s, i) => (
-          <Image class:list={['process__img', { 'is-active': i === 0 }]} data-photo={i} src={s.photo} alt={plain(s.alt)}
+          <Img class:list={['process__img', { 'is-active': i === 0 }]} data-photo={i} src={s.photo} alt={plain(s.alt)}
             widths={[640, 960, 1280]} sizes="(min-width: 900px) 50vw, 100vw" loading="lazy" style={`object-position:${s.pos}`} />
         ))}
       </div>
@@ -119,7 +119,19 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
       const desk = () => window.matchMedia('(min-width: 901px)').matches;
       b.addEventListener('mouseenter', () => { if (desk()) show(b.dataset.step!); });
       b.addEventListener('focus', () => { if (desk()) show(b.dataset.step!); });
+      // мобилка: пока соседний шаг схлопывается, держим нажатый на месте — страница не прыгает
+      const pin = (el: HTMLElement) => {
+        const top0 = el.getBoundingClientRect().top;
+        const t0 = performance.now();
+        const tick = () => {
+          const d = el.getBoundingClientRect().top - top0;
+          if (Math.abs(d) > 0.5) window.scrollBy(0, d);
+          if (performance.now() - t0 < 520) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
       b.addEventListener('click', () => {
+        if (!desk()) pin(b);
         // мобилка: повторный тап по открытому шагу закрывает его
         const li = b.parentElement!;
         if (!desk() && li.classList.contains('is-open')) {

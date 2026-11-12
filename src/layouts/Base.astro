@@ -79,6 +79,26 @@ const schema = {
         }, { rootMargin: '0px 0px -8% 0px' });
         els.forEach((el) => io.observe(el));
       } else els.forEach((el) => el.classList.add('is-in'));
+
+      // Предзагрузка: когда до блока остаётся ~1.5 экрана, грузим все его фото сразу —
+      // включая скрытые (шаги «Как работаем», слайдер работ), чтобы при открытии не было пустого поля.
+      // Стартуем после загрузки первого экрана, чтобы не мешать хиро.
+      const warm = () => {
+        const io2 = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('is-near');
+            e.target.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((img) => {
+              if (!img.closest('dialog')) img.loading = 'eager';
+            });
+            io2.unobserve(e.target);
+          });
+        }, { rootMargin: '150% 0px' });
+        document.querySelectorAll('main > section').forEach((s) => io2.observe(s));
+      };
+      const idle = (fn: () => void) => ('requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 300));
+      if (document.readyState === 'complete') idle(warm);
+      else addEventListener('load', () => idle(warm), { once: true });
     </script>
   </body>
 </html>

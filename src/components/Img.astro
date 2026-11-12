@@ -1,0 +1,14 @@
+---
+// Картинка сайта: astro:assets + облегчённое качество + размытое превью на время загрузки.
+// Превью лежит в --ph и включается классом .is-near у секции (см. Base.astro), когда до блока ~1.5 экрана, —
+// так оно не мешает первому экрану.
+// placeholder={false} — без превью (лайтбокс, выпадающее меню десктопа).
+import { Image } from 'astro:assets';
+import { lqip } from '../lib/lqip';
+const { src, style = '', quality = 64, placeholder = true, class: cls, ...rest } = Astro.props as Record<string, any>;
+const ph = placeholder ? await lqip(src) : null;
+const pos = /object-position:\s*([^;]+)/.exec(style)?.[1] ?? '50% 50%';
+const st = [style, ph && `--ph:url(${ph}) ${pos}/cover no-repeat`].filter(Boolean).join(';');
+const classes = [cls, ph && 'ph'].filter(Boolean).join(' ') || undefined;
+---
+<Image src={src} quality={quality} style={st || undefined} class={classes} {...rest} />
