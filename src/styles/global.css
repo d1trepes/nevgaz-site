@@ -18,6 +18,7 @@ h2 { font-size: var(--fs-h2); line-height: 1; letter-spacing: -0.005em; }
 h3 { font-size: var(--fs-h3); line-height: 1.15; font-weight: 600; }
 p { margin: 0; text-wrap: pretty; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
+[hidden] { display: none !important; }
 
 /* ---------- сетка ---------- */
 .container {
@@ -80,6 +81,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 @media (max-width: 900px) {
   .sec-head h2, .sec-head__aside { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .btn { max-width: 100%; height: auto; min-height: 56px; padding-block: 8px; white-space: normal; line-height: 1.2; text-align: left; }
 }
 
 @media (prefers-reduced-motion: reduce) {

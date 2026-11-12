@@ -1,0 +1,122 @@
+---
+// 10. Финальная форма — тёмный блок с фото дома, слева заголовок, справа белая карточка-форма.
+// На демо ничего не отправляет: валидация + «Спасибо, перезвоним».
+import { Image } from 'astro:assets';
+import Button from '../Button.astro';
+import dusk from '../../assets/ai/house-dusk.jpg';
+import { url } from '../../lib/url';
+
+const needs = ['Газ', 'Отопление', 'Вода', 'Электрика', 'Всё под ключ'];
+---
+<section class="section cta" id="zayavka">
+  <div class="container">
+    <div class="cta__box reveal">
+      <Image class="cta__bg" src={dusk} alt="" widths={[768, 1080, 1440, 1920]} sizes="(min-width: 1680px) 1624px, 100vw" loading="lazy" />
+      <div class="grid cta__grid">
+        <div class="cta__text">
+          <h2>Расскажите,<br />что нужно сделать</h2>
+          <p>Перезвоним, приедем на&nbsp;замер и&nbsp;посчитаем.</p>
+        </div>
+
+        <div class="cta__card">
+          <form class="cta__form" novalidate data-cta-form>
+            <label class="field">
+              <span>Как вас зовут</span>
+              <input name="name" type="text" autocomplete="given-name" required />
+            </label>
+            <label class="field">
+              <span>Телефон</span>
+              <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required data-phone />
+              <small class="field__err" hidden>Проверьте номер — нужно 10&nbsp;цифр после +7</small>
+            </label>
+            <fieldset class="needs">
+              <legend>Что нужно</legend>
+              <div class="needs__list">
+                {needs.map((n, i) => (
+                  <label class="chip"><input type="radio" name="need" value={n} checked={i === 0} /><span>{n}</span></label>
+                ))}
+              </div>
+            </fieldset>
+            <label class="consent">
+              <input type="checkbox" name="consent" required />
+              <span>Согласен на&nbsp;обработку персональных данных по&nbsp;<a href={url('/politika/')}>политике</a></span>
+            </label>
+            <Button type="submit" block>Жду звонка</Button>
+          </form>
+          <div class="cta__done" hidden data-cta-done tabindex="-1">
+            <h3>Спасибо, перезвоним</h3>
+            <p>Мастер позвонит на&nbsp;номер <b data-cta-phone></b>, уточнит задачу и&nbsp;договорится о&nbsp;замере.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta__box { position: relative; border-radius: var(--r-hero); overflow: hidden; background: var(--c-navy-900); color: #fff; isolation: isolate; }
+  .cta__box :global(.cta__bg) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; z-index: -2; }
+  .cta__box::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, rgb(10 26 48 / 0.96) 0%, rgb(10 26 48 / 0.86) 38%, rgb(10 26 48 / 0.35) 72%, rgb(10 26 48 / 0.2) 100%);
+  }
+  .cta__grid { padding: clamp(28px, 4vw, 64px); row-gap: 32px; align-items: center; min-height: clamp(560px, 46vw, 720px); }
+  .cta__text { grid-column: 1 / span 6; display: grid; gap: 20px; align-self: end; }
+  .cta__text h2 { font-size: clamp(44px, 5.6vw, 88px); line-height: 0.95; }
+  .cta__text p { font-size: 19px; color: #d3dae4; }
+
+  .cta__card { grid-column: 8 / -1; background: var(--c-surface); color: var(--c-ink); border-radius: var(--r-card); padding: clamp(24px, 2.4vw, 36px); }
+  .cta__form { display: grid; gap: 16px; }
+
+  .needs { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .needs legend { padding: 0; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #3d444e; }
+  .needs__list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; cursor: pointer; }
+  .chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .chip span { display: inline-flex; align-items: center; height: 42px; padding: 0 18px; border-radius: var(--r-pill); background: var(--c-bg); font-size: 15px; font-weight: 500; transition: background 0.2s, color 0.2s; }
+  .chip input:checked + span { background: var(--c-navy-900); color: #fff; }
+  .chip input:focus-visible + span { outline: 3px solid var(--c-orange); outline-offset: 2px; }
+  @media (hover: hover) { .chip:hover input:not(:checked) + span { background: var(--c-bg-soft); } }
+
+  .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: var(--c-muted); cursor: pointer; }
+  .consent input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--c-navy-900); flex: none; }
+  .consent a { color: inherit; }
+  .consent.is-invalid { color: var(--c-orange-600); }
+
+  .cta__done { display: grid; gap: 12px; padding-block: 24px; }
+  .cta__done h3 { font-size: clamp(32px, 3vw, 44px); font-weight: 700; }
+  .cta__done p { color: #3d444e; }
+
+  @media (max-width: 1080px) {
+    .cta__text, .cta__card { grid-column: 1 / -1; }
+    .cta__box::after { background: rgb(10 26 48 / 0.82); }
+  }
+</style>
+
+<script>
+  import { maskPhone, phoneComplete } from '../../lib/phone';
+
+  const form = document.querySelector<HTMLFormElement>('[data-cta-form]');
+  if (form) {
+    const done = document.querySelector<HTMLElement>('[data-cta-done]')!;
+    const nameInput = form.querySelector<HTMLInputElement>('[name="name"]')!;
+    const phone = form.querySelector<HTMLInputElement>('[data-phone]')!;
+    const consent = form.querySelector<HTMLInputElement>('[name="consent"]')!;
+    const err = form.querySelector<HTMLElement>('.field__err')!;
+    maskPhone(phone);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const okName = nameInput.value.trim().length > 0;
+      const okPhone = phoneComplete(phone.value);
+      nameInput.setAttribute('aria-invalid', String(!okName));
+      phone.setAttribute('aria-invalid', String(!okPhone));
+      err.hidden = okPhone;
+      consent.closest('.consent')!.classList.toggle('is-invalid', !consent.checked);
+      if (!okName) return nameInput.focus();
+      if (!okPhone) return phone.focus();
+      if (!consent.checked) return consent.focus();
+      done.querySelector('[data-cta-phone]')!.textContent = phone.value;
+      form.hidden = true; done.hidden = false; done.focus();
+    });
+  }
+</script>
