@@ -1,0 +1,87 @@
+---
+// 3. Как мы работаем — ref-04: нумерованный список с тонкими линиями + большое фото, меняется по шагам.
+import { Image } from 'astro:assets';
+import meter from '../../assets/ai/meter-check.jpg';
+import boiler from '../../assets/photos/11-boiler-wall-2.jpg';
+import master from '../../assets/ai/master-portrait.jpg';
+import facade from '../../assets/photos/08-gas-pipe-meter-facade.jpg';
+import flame from '../../assets/ai/flame-macro.jpg';
+
+const steps = [
+  { t: 'Заявка', d: 'Звоните или&nbsp;оставляете номер — перезваниваем.', photo: meter, pos: '50% 50%', alt: 'Мастер проверяет газовый счётчик на&nbsp;фасаде' },
+  { t: 'Выезд и&nbsp;замер', d: 'Мастер приезжает на&nbsp;объект, смотрит дом и&nbsp;сети.', photo: boiler, pos: '50% 50%', alt: 'Настенный котёл, дымоход и&nbsp;счётчик в&nbsp;котельной' },
+  { t: 'Смета', d: 'Подбираем оборудование под дом и&nbsp;бюджет, фиксируем цену.', photo: master, pos: '50% 25%', alt: 'Мастер у&nbsp;настенного газового котла' },
+  { t: 'Монтаж', d: 'Своя бригада, без субподрядчиков.', photo: facade, pos: '50% 50%', alt: 'Газопровод и&nbsp;счётчик на&nbsp;кирпичном фасаде' },
+  { t: 'Запуск', d: 'Пусконаладка, сдача газовой службе, гарантия.', photo: flame, pos: '50% 50%', alt: 'Синее пламя газовой горелки котла' },
+];
+const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
+---
+<section class="section process" id="kak-rabotaem">
+  <div class="container">
+    <div class="grid sec-head reveal">
+      <h2>Один подрядчик —<br />от&nbsp;замера до&nbsp;тепла в&nbsp;доме</h2>
+    </div>
+    <div class="grid process__body reveal" data-steps>
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li>
+            <button type="button" class:list={['step', { 'is-active': i === 0 }]} data-step={i} aria-pressed={i === 0 ? 'true' : 'false'}>
+              <span class="step__n">{String(i + 1).padStart(2, '0')}</span>
+              <span class="step__t" set:html={s.t} />
+              <span class="step__d" set:html={s.d} />
+            </button>
+          </li>
+        ))}
+      </ol>
+      <div class="process__photo">
+        {steps.map((s, i) => (
+          <Image class:list={['process__img', { 'is-active': i === 0 }]} data-photo={i} src={s.photo} alt={plain(s.alt)}
+            widths={[640, 960, 1280]} sizes="(min-width: 900px) 50vw, 100vw" loading="lazy" style={`object-position:${s.pos}`} />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process__body { align-items: stretch; }
+  .steps { grid-column: 1 / span 6; border-top: 1px solid var(--c-line); }
+  .steps li { border-bottom: 1px solid var(--c-line); }
+  .step {
+    width: 100%; display: grid; grid-template-columns: 72px 1fr; column-gap: 16px; row-gap: 4px; align-items: baseline;
+    padding: 26px 8px 26px 0; border: 0; background: none; text-align: left; cursor: pointer; color: var(--c-muted);
+    transition: color 0.3s;
+  }
+  .step__n { grid-row: span 2; font: 600 20px/1 var(--f-display); letter-spacing: 0.02em; }
+  .step__t { font: 700 clamp(28px, 2.6vw, 40px)/1 var(--f-display); }
+  .step__d { font-size: 16px; line-height: 1.5; }
+  .step.is-active { color: var(--c-ink); }
+  .step.is-active .step__n { color: var(--c-orange-600); }
+  .step.is-active .step__d { color: #3d444e; }
+  @media (hover: hover) { .step:hover { color: var(--c-ink); } }
+
+  .process__photo { grid-column: 7 / -1; position: relative; border-radius: var(--r-card); overflow: hidden; background: var(--c-bg-soft); min-height: 420px; }
+  .process__photo :global(.process__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.6s var(--ease-out); }
+  .process__photo :global(.process__img.is-active) { opacity: 1; }
+
+  @media (max-width: 900px) {
+    .steps, .process__photo { grid-column: 1 / -1; }
+    .process__photo { order: -1; aspect-ratio: 4 / 3; min-height: 0; margin-bottom: 24px; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-steps]').forEach((root) => {
+    const btns = root.querySelectorAll<HTMLButtonElement>('[data-step]');
+    const photos = root.querySelectorAll<HTMLElement>('[data-photo]');
+    const show = (i: string) => {
+      btns.forEach((b) => { const on = b.dataset.step === i; b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', String(on)); });
+      photos.forEach((p) => p.classList.toggle('is-active', p.dataset.photo === i));
+    };
+    btns.forEach((b) => {
+      b.addEventListener('mouseenter', () => show(b.dataset.step!));
+      b.addEventListener('focus', () => show(b.dataset.step!));
+      b.addEventListener('click', () => show(b.dataset.step!));
+    });
+  });
+</script>

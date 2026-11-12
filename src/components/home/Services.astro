@@ -1,0 +1,83 @@
+---
+// 2. Направления — ref-01 «What we build»: 4 высокие фото-карточки, газификация — тёмная.
+import { Image } from 'astro:assets';
+import Arrow from '../Arrow.astro';
+import { url } from '../../lib/url';
+import gas from '../../assets/ai/gas-entry-plot.jpg';
+import heat from '../../assets/ai/underfloor-heating.jpg';
+import water from '../../assets/ai/water-boiler-room.jpg';
+import power from '../../assets/ai/power-panel.jpg';
+
+const cards = [
+  { title: 'Газификация', href: '/uslugi/gazifikaciya/', photo: gas, pos: '50% 50%', dark: true,
+    text: 'Ввод газа, фасадный газопровод, счётчик, подключение плиты и&nbsp;котла.', price: 'от&nbsp;10&nbsp;000&nbsp;₽',
+    alt: 'Жёлтая газовая труба выходит из&nbsp;земли и&nbsp;заходит в&nbsp;кирпичный дом' },
+  { title: 'Отопление', href: '/uslugi/otoplenie/', photo: heat, pos: '50% 60%',
+    text: 'Котлы, дымоходы, радиаторы, тёплый пол.', price: 'котлы от&nbsp;20&nbsp;000&nbsp;₽',
+    alt: 'Трубы тёплого пола уложены спиралью на&nbsp;утеплитель' },
+  { title: 'Водоснабжение', href: '/uslugi/vodosnabzhenie/', photo: water, pos: '50% 40%',
+    text: 'Разводка, бойлеры, водонагреватели, канализация.', price: 'цена после замера',
+    alt: 'Бойлер косвенного нагрева и&nbsp;разводка труб в&nbsp;котельной' },
+  { title: 'Электрика', href: '/uslugi/elektromontazh/', photo: power, pos: '50% 35%',
+    text: 'Проводка, сборка щита, подключение оборудования.', price: '10–20&nbsp;тыс.&nbsp;₽',
+    alt: 'Электрик устанавливает автоматы в&nbsp;щит' },
+];
+---
+<section class="section services" id="uslugi">
+  <div class="container">
+    <div class="grid sec-head reveal">
+      <h2>Что мы делаем</h2>
+      <p class="sec-head__aside">Газ, тепло, вода и&nbsp;свет — в&nbsp;одних руках. Не&nbsp;нужно искать трёх подрядчиков и&nbsp;сводить их&nbsp;между собой.</p>
+    </div>
+    <ul class="grid services__grid reveal">
+      {cards.map((c) => (
+        <li class:list={['svc', { 'svc--dark': c.dark }]}>
+          <a href={url(c.href)} class="svc__link">
+            <Image class="svc__img" src={c.photo} alt={c.alt.replaceAll('&nbsp;', ' ')} widths={[400, 640, 900]} sizes="(min-width: 1080px) 25vw, 82vw" style={`object-position:${c.pos}`} />
+            <span class="round svc__go" aria-hidden="true"><Arrow /></span>
+            <span class="svc__body">
+              <h3 class="svc__title">{c.title}</h3>
+              <span class="svc__text" set:html={c.text} />
+              <span class="svc__price" set:html={c.price} />
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="services__more reveal">
+      <a class="link-arrow" href={url('/uslugi/')}>Ещё: сварочные работы, металлоконструкции, подбор и&nbsp;доставка оборудования<Arrow /></a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .services__grid { row-gap: var(--gap); }
+  .svc { grid-column: span 3; }
+  .svc__link {
+    position: relative; display: flex; align-items: flex-end; height: clamp(420px, 36vw, 600px);
+    border-radius: var(--r-card); overflow: hidden; background: var(--c-bg-soft); color: #fff; text-decoration: none; isolation: isolate;
+  }
+  .svc__link :global(.svc__img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform 0.6s var(--ease-out); }
+  .svc__link::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(to top, rgb(10 26 48 / 0.78) 0%, rgb(10 26 48 / 0.35) 32%, rgb(10 26 48 / 0) 55%);
+  }
+  .svc--dark .svc__link::after {
+    background: linear-gradient(to top, rgb(10 26 48 / 0.94) 0%, rgb(10 26 48 / 0.72) 45%, rgb(10 26 48 / 0.5) 100%);
+  }
+  .svc__go { position: absolute; top: 16px; right: 16px; }
+  .svc__body { display: grid; gap: 8px; padding: 24px; }
+  .svc__title { font-size: clamp(30px, 2.4vw, 40px); font-weight: 700; line-height: 1; }
+  .svc__text { font-size: 15px; line-height: 1.45; color: rgb(255 255 255 / 0.86); max-width: 30ch; }
+  .svc__price { margin-top: 10px; font: 600 24px/1 var(--f-display); letter-spacing: 0.01em; }
+  .svc--dark .svc__price { color: var(--c-orange-glow); }
+  @media (hover: hover) {
+    .svc__link:hover :global(.svc__img) { transform: scale(1.03); }
+    .svc__link:hover .svc__go { transform: rotate(45deg); }
+  }
+  .services__more { margin-top: 28px; font-size: 15px; }
+  .services__more :global(svg) { width: 12px; height: 12px; }
+
+  @media (max-width: 1080px) { .svc { grid-column: span 6; } }
+  @media (max-width: 600px) { .svc { grid-column: 1 / -1; } .svc__link { height: 420px; } }
+</style>

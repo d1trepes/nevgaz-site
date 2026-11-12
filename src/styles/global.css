@@ -28,7 +28,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
 }
 .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
-.section { padding-block: var(--section-y); }
+.section { padding-block: calc(var(--section-y) / 2); }
 .section--tight { padding-block: calc(var(--section-y) * 0.6); }
 
 /* Шапка секции: H2 слева (1–7), пояснение справа (9–12), по низу заголовка */
