@@ -11,8 +11,15 @@ const included: Record<string, string> = {
   'Установка котельного оборудования': 'Настенный котёл, дымоход и&nbsp;обвязка, пусконаладка и&nbsp;первый запуск.',
   'Электромонтажные работы': 'Проводка в&nbsp;частном доме, сборка щита, подключение оборудования.',
 };
-// «10 000 – 100 000 ₽» → две строки, тире в конце первой
-const priceLines = (p: string) => nb(p).split(/\s*–\s*/).map((part, i, a) => (i < a.length - 1 ? `${part}&nbsp;–` : part));
+// Цена в одну строку, коротко — как в карточках услуг и в хиро:
+// «10 000 – 100 000 ₽» → «10–100 тыс. ₽», «от 20 000 ₽» → «от 20 тыс. ₽». Исходник — company.json.
+const short = (p: string) => {
+  const nums = (p.match(/\d[\d\s]*/g) ?? []).map((n) => Number(n.replace(/\s/g, '')));
+  if (!nums.length || nums.some((n) => n % 1000)) return nb(p);
+  const k = nums.map((n) => n / 1000);
+  const body = k.length > 1 ? `${k[0]}–${k[1]}` : `${p.trim().startsWith('от') ? 'от&nbsp;' : ''}${k[0]}`;
+  return `${body}&nbsp;тыс.&nbsp;₽`;
+};
 ---
 <section class="section prices" id="ceny">
   <div class="container">
@@ -28,7 +35,7 @@ const priceLines = (p: string) => nb(p).split(/\s*–\s*/).map((part, i, a) => (
         <li class="price">
           <h3 class="price__title" set:html={nb(p.title)} />
           <p class="price__text" set:html={included[p.title] ?? ''} />
-          <p class="price__value">{priceLines(p.price).map((l) => <span set:html={l} />)}</p>
+          <p class="price__value" set:html={short(p.price)} />
         </li>
       ))}
       <li class="price price--dark">
@@ -46,12 +53,14 @@ const priceLines = (p: string) => nb(p).split(/\s*–\s*/).map((part, i, a) => (
     grid-column: span 3; display: flex; flex-direction: column; gap: 14px;
     min-height: clamp(340px, 26vw, 400px); padding: clamp(24px, 2.2vw, 32px);
     background: var(--c-surface); border-radius: var(--r-card);
+    container-type: inline-size;
   }
   .price__title { font: 600 20px/1.25 var(--f-body); }
   .price__text { font-size: 15px; line-height: 1.5; color: var(--c-muted); max-width: 32ch; }
   .price__value {
-    margin-top: auto; display: grid;
-    font: 600 clamp(40px, 3.6vw, 60px)/0.98 var(--f-display); letter-spacing: -0.005em; white-space: nowrap;
+    margin-top: auto;
+    /* размер от ширины карточки: самая длинная цена («10–100 тыс. ₽») ровно в одну строку */
+    font: 600 min(62px, 19.4cqi)/0.98 var(--f-display); letter-spacing: -0.005em; white-space: nowrap;
   }
   .price--dark { background: var(--c-navy-900); color: #fff; }
   .price__title--big { font: 700 clamp(30px, 2.4vw, 40px)/1 var(--f-display); }
