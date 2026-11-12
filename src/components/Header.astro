@@ -36,7 +36,7 @@ const isActive = (href: string) => path.startsWith(url(href));
                   </li>
                 ))}
               </ul>
-              <a class="link-arrow drop__all" href={url(item.href)}>Все услуги и&nbsp;цены<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 12 12 4M5 4h7v7" /></svg></a>
+              <Button href={url(item.href)} variant="ghost" size="sm" class="drop__all">Все услуги и&nbsp;цены</Button>
             </div>
           </li>
         ) : (
@@ -115,7 +115,8 @@ const isActive = (href: string) => path.startsWith(url(href));
   .drop__ph { display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--c-bg-soft); }
   .drop__ph :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-out); }
   .drop__t { padding-inline: 2px; }
-  .drop__all { justify-self: start; margin-left: 2px; font-size: 14px; }
+  .drop :global(.drop__all) { justify-self: start; background: var(--c-bg); }
+  .drop :global(.drop__all .btn__puck) { background: var(--c-surface); }
   @media (hover: hover) {
     .drop__item:hover .drop__ph :global(img) { transform: scale(1.03); }
     .drop__item:hover .drop__t { color: var(--c-orange-600); }

@@ -35,7 +35,7 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
       <div class="grid sec-head works__head">
         <h2>Реальные объекты</h2>
         <div class="sec-head__aside works__aside">
-          <Button href={url('/raboty/')} variant="ghost" size="sm">Все работы</Button>
+          <Button href={url('/raboty/')} variant="ghost">Все работы</Button>
           <div class="works__nav">
             <button class="round" type="button" aria-label="Назад" data-prev disabled><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg></button>
             <button class="round" type="button" aria-label="Вперёд" data-next><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg></button>
@@ -76,8 +76,10 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
     padding: clamp(28px, 3.5vw, 56px) 0 clamp(28px, 3.5vw, 56px) clamp(24px, 3vw, 48px); overflow: hidden;
   }
   .works__head { padding-right: clamp(24px, 3vw, 48px); }
-  .works__aside { display: flex; align-items: center; justify-content: space-between; gap: 24px; color: #fff; }
+  /* кнопка и стрелки одной группой у правого края, стрелки по высоте кнопки (56px) */
+  .works__aside { display: flex; align-items: center; justify-content: flex-end; gap: 10px; color: #fff; padding-bottom: 0; }
   .works__nav { display: flex; gap: 10px; }
+  .works__nav .round { width: 56px; height: 56px; }
   .works__nav .round:disabled { opacity: 0.35; cursor: default; }
   @media (hover: hover) { .works__nav .round:not(:disabled):hover { background: var(--c-orange); color: #fff; } }
 

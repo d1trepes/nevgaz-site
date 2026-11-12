@@ -26,16 +26,16 @@ const cards = [
 ---
 <section class="section services" id="uslugi">
   <div class="container">
-    <div class="grid sec-head reveal">
-      <h2>Что мы делаем</h2>
-      <div class="sec-head__aside">
+    <div class="grid sec-head services__head reveal">
+      <div class="services__title">
+        <h2>Что мы делаем</h2>
         <p>Газ, тепло, вода и&nbsp;свет — в&nbsp;одних руках. А&nbsp;ещё сварка, металлоконструкции, подбор и&nbsp;доставка оборудования.</p>
-        <Button href={url('/uslugi/')} variant="ghost" size="sm" class="aside-btn">Все услуги</Button>
       </div>
+      <div class="services__btn"><Button href={url('/uslugi/')} variant="ghost">Все услуги</Button></div>
     </div>
     <ul class="grid services__grid reveal">
       {cards.map((c) => (
-        <li class:list={['svc', { 'svc--dark': c.dark }]}>
+        <li class="svc">
           <a href={url(c.href)} class="svc__link">
             <Image class="svc__img" src={c.photo} alt={c.alt.replaceAll('&nbsp;', ' ')} widths={[400, 640, 900]} sizes="(min-width: 1080px) 25vw, 82vw" style={`object-position:${c.pos}`} />
             <span class="round svc__go" aria-hidden="true"><Arrow /></span>
@@ -52,6 +52,11 @@ const cards = [
 </section>
 
 <style>
+  .services__head { align-items: end; }
+  .services__title { grid-column: 1 / span 8; display: grid; gap: 16px; }
+  .services__title p { font-size: 18px; line-height: 1.5; color: #3d444e; max-width: 48ch; }
+  .services__btn { grid-column: 9 / -1; justify-self: end; }
+  .svc__price { transition: color 0.3s; }
   .services__grid { row-gap: var(--gap); }
   .svc { grid-column: span 3; }
   .svc__link {
@@ -63,20 +68,18 @@ const cards = [
     content: ""; position: absolute; inset: 0; z-index: -1;
     background: linear-gradient(to top, rgb(10 26 48 / 0.78) 0%, rgb(10 26 48 / 0.35) 32%, rgb(10 26 48 / 0) 55%);
   }
-  .svc--dark .svc__link::after {
-    background: linear-gradient(to top, rgb(10 26 48 / 0.94) 0%, rgb(10 26 48 / 0.72) 45%, rgb(10 26 48 / 0.5) 100%);
-  }
   .svc__go { position: absolute; top: 16px; right: 16px; }
   .svc__body { display: grid; gap: 8px; padding: 24px; }
   .svc__title { font-size: clamp(30px, 2.4vw, 40px); font-weight: 700; line-height: 1; }
   .svc__text { font-size: 15px; line-height: 1.45; color: rgb(255 255 255 / 0.86); max-width: 30ch; }
   .svc__price { margin-top: 10px; font: 600 24px/1 var(--f-display); letter-spacing: 0.01em; }
-  .svc--dark .svc__price { color: var(--c-orange-glow); }
   @media (hover: hover) {
     .svc__link:hover :global(.svc__img) { transform: scale(1.03); }
-    .svc__link:hover .svc__go { transform: rotate(45deg); }
+    .svc__link:hover .svc__go { transform: rotate(45deg); background: var(--c-orange); color: #fff; }
+    .svc__link:hover .svc__price { color: var(--c-orange-glow); }
   }
 
   @media (max-width: 1080px) { .svc { grid-column: span 6; } }
+  @media (max-width: 900px) { .services__title, .services__btn { grid-column: 1 / -1; justify-self: start; } }
   @media (max-width: 600px) { .svc { grid-column: 1 / -1; } .svc__link { height: 420px; } }
 </style>
