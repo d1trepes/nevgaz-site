@@ -20,6 +20,8 @@ const short = (p: string) => {
   const body = k.length > 1 ? `${k[0]}–${k[1]}` : `${p.trim().startsWith('от') ? 'от&nbsp;' : ''}${k[0]}`;
   return `${body}&nbsp;тыс.&nbsp;₽`;
 };
+// мобилка: прилагательное не отрывается от существительного («котельного оборудования», «Электромонтажные работы»)
+const keep = (t: string) => t.replace(/([А-Яа-яЁё]+(?:ого|ные|ный|ная)) ([А-Яа-яЁё]+)$/, '<span class="nw">$1 $2</span>');
 ---
 <section class="section prices" id="ceny">
   <div class="container">
@@ -33,13 +35,13 @@ const short = (p: string) => {
     <ul class="grid prices__grid reveal">
       {company.prices.map((p) => (
         <li class="price">
-          <h3 class="price__title" set:html={nb(p.title)} />
+          <h3 class="price__title" set:html={keep(nb(p.title))} />
           <p class="price__text" set:html={included[p.title] ?? ''} />
           <p class="price__value" set:html={short(p.price)} />
         </li>
       ))}
       <li class="price price--dark">
-        <h3 class="price__title price__title--big">Нет вашей услуги?<br />Посчитаем под&nbsp;ваш&nbsp;дом</h3>
+        <h3 class="price__title price__title--big">Нет вашей услуги?<br /><span class="nw">Посчитаем под&nbsp;ваш&nbsp;дом</span></h3>
         <p class="price__text">Вода, канализация, тёплый пол, сварка и&nbsp;металлоконструкции — смету соберём после замера.</p>
         <Button lead topic="расчёт под мой дом">Получить расчёт</Button>
       </li>
@@ -68,5 +70,16 @@ const short = (p: string) => {
   .price--dark :global(.btn) { margin-top: auto; align-self: flex-start; }
 
   @media (max-width: 1080px) { .price { grid-column: span 6; } }
-  @media (max-width: 600px) { .price { grid-column: 1 / -1; min-height: 0; } }
+  @media (max-width: 1080px) { .price :global(.nw) { white-space: nowrap; } }
+  @media (max-width: 599px) {
+    .prices__grid {
+      display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+      margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+    .prices__grid::-webkit-scrollbar { display: none; }
+    .price { flex: 0 0 82%; scroll-snap-align: start; min-height: 0; padding: 24px 20px; border-radius: 18px; }
+    .price__title--big { font-size: 28px; }
+  }
 </style>

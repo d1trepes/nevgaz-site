@@ -16,11 +16,12 @@ const points = [
 <section class="section gas" id="gazifikaciya">
   <div class="container grid gas__grid reveal">
     <div class="gas__hero">
-      <Image class="gas__hero-img" src={dusk} alt="Кирпичный дом вечером, свет в окнах, газовая труба по фасаду" widths={[768, 1080, 1440]} sizes="(min-width: 1080px) 58vw, 100vw" loading="lazy" />
+      <Image class="gas__hero-img" src={dusk} alt="Кирпичный дом вечером, свет в окнах, газовая труба по фасаду" widths={[768, 1080, 1440]} sizes="(min-width: 1081px) 58vw, 100vw" loading="lazy" />
       <h2>Газ в&nbsp;дом —<br />без беготни</h2>
     </div>
 
     <div class="gas__card">
+      <div class="gas__text">
       <p class="gas__lead">Подведём газ от&nbsp;точки на&nbsp;участке до&nbsp;плиты и&nbsp;котла: трасса, фасадный газопровод, счётчик, подключение оборудования, первый пуск.</p>
       <ul class="gas__list">
         {points.map((p) => (
@@ -30,14 +31,15 @@ const points = [
           </li>
         ))}
       </ul>
+      </div>
       <Button lead topic="газификация дома">Узнать стоимость газификации</Button>
     </div>
 
     <figure class="gas__ph">
-      <Image src={warn} alt="Газовая труба и жёлтый ящик с надписью «Огнеопасно газ» на стене" widths={[320, 640]} sizes="(min-width: 1080px) 20vw, 50vw" loading="lazy" />
+      <Image src={warn} alt="Газовая труба и жёлтый ящик с надписью «Огнеопасно газ» на стене" widths={[320, 640]} sizes="(min-width: 1081px) 20vw, 50vw" loading="lazy" />
     </figure>
     <figure class="gas__ph">
-      <Image src={meter} alt="Газопровод и счётчик у кирпичной стены" widths={[320, 640]} sizes="(min-width: 1080px) 20vw, 50vw" loading="lazy" />
+      <Image src={meter} alt="Газопровод и счётчик у кирпичной стены" widths={[320, 640]} sizes="(min-width: 1081px) 20vw, 50vw" loading="lazy" />
     </figure>
   </div>
 </section>
@@ -56,6 +58,7 @@ const points = [
     grid-column: 8 / -1; background: var(--c-surface); border-radius: var(--r-card);
     padding: clamp(24px, 2.6vw, 40px); display: grid; gap: 24px; justify-items: start; align-content: start;
   }
+  .gas__text { display: contents; }
   .gas__lead { font-size: 18px; line-height: 1.55; }
   .gas__list { display: grid; gap: 0; width: 100%; border-top: 1px solid var(--c-line); }
   .gas__list li { display: flex; gap: 12px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--c-line); font-size: 16px; }
@@ -71,5 +74,21 @@ const points = [
     .gas__card { grid-column: 1 / -1; }
     .gas__ph:nth-of-type(1) { grid-column: 1 / span 6; }
     .gas__ph:nth-of-type(2) { grid-column: 7 / span 6; }
+  }
+  /* телефон: фото с заголовком → белая карточка → кнопка во всю колонку → два фото 1:1 */
+  @media (max-width: 599px) {
+    .gas__grid { row-gap: 12px; }
+    .gas__hero { min-height: 0; aspect-ratio: 4 / 5; border-radius: 20px; }
+    .gas__hero h2 { padding: 20px; font-size: clamp(40px, 11vw, 48px); }
+    .gas__card { display: contents; }
+    .gas__text { display: grid; gap: 20px; grid-column: 1 / -1; padding: 24px 20px 12px; background: var(--c-surface); border-radius: 18px; }
+    .gas__card :global(.btn) { grid-column: 1 / -1; }
+    .gas__lead { font-size: 17px; }
+    .gas__list { border-top: 0; }
+    .gas__list li:last-child { border-bottom: 0; }
+    .gas__ph { margin-top: 4px; }
+    .gas__ph:nth-of-type(1) { grid-column: 1 / span 6; }
+    .gas__ph:nth-of-type(2) { grid-column: 7 / span 6; }
+    .gas__ph :global(img) { height: auto; aspect-ratio: 1; border-radius: 14px; }
   }
 </style>

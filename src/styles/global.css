@@ -102,6 +102,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
     text-align: left; white-space: normal; text-wrap: balance; /* страховка: аккуратно в две строки, а не вылет за край */
   }
   .btn .btn__puck, .btn--sm .btn__puck { width: 40px; height: 40px; }
+  .sec-head__btn { justify-self: stretch; }
   .btn-row { display: grid !important; grid-template-columns: minmax(0, 1fr); gap: 10px; width: 100%; }
 }
 
