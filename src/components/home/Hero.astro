@@ -33,7 +33,7 @@ const layers = [
     <div class="stage">
       <div class="house" id="house" data-gas="on" data-heat="on" data-water="on" data-light="on" role="img" aria-label="Одноэтажный дом в разрезе: ванная, кухня, котельная, гостиная и спальня">
         <Image src={base} alt="" widths={widths} sizes={sizes} loading="eager" fetchpriority="high" />
-        {layers.map((l) => <Image class={l.cls} src={l.src} alt="" widths={widths} sizes={sizes} loading="lazy" decoding="async" />)}
+        {layers.map((l) => <Image class={l.cls} src={l.src} alt="" widths={widths} sizes={sizes} loading="lazy" decoding="async" fetchpriority="low" />)}
         <span class="chill" aria-hidden="true"></span>
       </div>
       <div class="controls">

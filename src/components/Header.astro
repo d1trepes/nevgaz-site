@@ -178,6 +178,7 @@ const isActive = (href: string) => path.startsWith(url(href));
     .hdr__in { padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
     .hdr__nav { display: none; }
     .hdr__burger { display: grid; }
+    .hdr__logo { display: block; padding-block: 10px; margin-block: -10px; } /* тап-зона ≥48px без сдвига шапки */
   }
   @media (min-width: 1081px) { .sheet { display: none; } }
   @media (max-width: 600px) {

@@ -92,6 +92,11 @@ const needs = ['Газ', 'Отопление', 'Вода', 'Электрика',
     .cta__box::after { background: rgb(10 26 48 / 0.82); }
     .cta__text .nw { white-space: nowrap; }
   }
+  @media (min-width: 600px) and (max-width: 1080px) {
+    .chip span { height: 48px; }
+    .consent { min-height: 48px; align-items: center; }
+    .consent input { width: 22px; height: 22px; margin: 0; }
+  }
   @media (max-width: 599px) {
     .cta__box { border-radius: 20px; }
     .cta__grid { padding: 28px 16px 16px; min-height: 0; row-gap: 24px; }

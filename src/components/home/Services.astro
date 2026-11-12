@@ -37,7 +37,7 @@ const cards = [
       {cards.map((c) => (
         <li class="svc">
           <a href={url(c.href)} class="svc__link">
-            <Image class="svc__img" src={c.photo} alt={c.alt.replaceAll('&nbsp;', ' ')} widths={[400, 640, 900]} sizes="(min-width: 1081px) 25vw, (min-width: 600px) 50vw, 82vw" style={`object-position:${c.pos}`} />
+            <Image class="svc__img" src={c.photo} alt={c.alt.replaceAll('&nbsp;', ' ')} widths={[400, 640, 900, 1280, 1536]} sizes="(min-width: 1081px) 25vw, (min-width: 600px) 82vw, 168vw" style={`object-position:${c.pos}`} />
             <span class="round svc__go" aria-hidden="true"><Arrow /></span>
             <span class="svc__body">
               <h3 class="svc__title">{c.title}</h3>

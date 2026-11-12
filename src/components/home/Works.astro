@@ -46,7 +46,7 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
         {works.map((w, i) => (
           <li class="work">
             <button class="work__btn" type="button" data-open={i} aria-label={`Открыть фото: ${plain(w.cap)}`}>
-              <Image src={w.src} alt={plain(w.cap)} widths={[400, 640]} sizes="(min-width: 1081px) 28vw, (min-width: 600px) 40vw, 80vw" loading="lazy" style={`object-position:${w.pos}`} />
+              <Image src={w.src} alt={plain(w.cap)} widths={[400, 640, 1080]} sizes="(min-width: 1081px) 28vw, (min-width: 600px) 66vw, 124vw" loading="lazy" style={`object-position:${w.pos}`} />
             </button>
             <p class="work__cap" set:html={w.cap} />
           </li>

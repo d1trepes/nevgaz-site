@@ -89,6 +89,9 @@ const widget = `https://yandex.ru/map-widget/v1/?ll=${encodeURIComponent(ll)}&z=
     .contacts__info, .map { grid-column: 1 / -1; }
     .map { min-height: 0; aspect-ratio: 4 / 3; }
   }
+  @media (min-width: 600px) and (max-width: 1080px) {
+    .contacts__tel, .contacts__mail { display: flex; align-items: center; min-height: 48px; width: fit-content; }
+  }
   /* телефон: карта 4:5, кнопки друг под другом во всю ширину у нижнего края */
   @media (max-width: 599px) {
     .contacts__info { gap: 24px; }
