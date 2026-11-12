@@ -2,6 +2,7 @@
 // 2. Направления — ref-01 «What we build»: 4 высокие фото-карточки, газификация — тёмная.
 import { Image } from 'astro:assets';
 import Arrow from '../Arrow.astro';
+import Button from '../Button.astro';
 import { url } from '../../lib/url';
 import gas from '../../assets/ai/gas-entry-plot.jpg';
 import heat from '../../assets/ai/underfloor-heating.jpg';
@@ -27,7 +28,10 @@ const cards = [
   <div class="container">
     <div class="grid sec-head reveal">
       <h2>Что мы делаем</h2>
-      <p class="sec-head__aside">Газ, тепло, вода и&nbsp;свет — в&nbsp;одних руках. Не&nbsp;нужно искать трёх подрядчиков и&nbsp;сводить их&nbsp;между собой.</p>
+      <div class="sec-head__aside">
+        <p>Газ, тепло, вода и&nbsp;свет — в&nbsp;одних руках. А&nbsp;ещё сварка, металлоконструкции, подбор и&nbsp;доставка оборудования.</p>
+        <Button href={url('/uslugi/')} variant="ghost" size="sm" class="aside-btn">Все услуги</Button>
+      </div>
     </div>
     <ul class="grid services__grid reveal">
       {cards.map((c) => (
@@ -44,9 +48,6 @@ const cards = [
         </li>
       ))}
     </ul>
-    <p class="services__more reveal">
-      <a class="link-arrow" href={url('/uslugi/')}>Ещё: сварочные работы, металлоконструкции, подбор и&nbsp;доставка оборудования<Arrow /></a>
-    </p>
   </div>
 </section>
 
@@ -75,8 +76,6 @@ const cards = [
     .svc__link:hover :global(.svc__img) { transform: scale(1.03); }
     .svc__link:hover .svc__go { transform: rotate(45deg); }
   }
-  .services__more { margin-top: 28px; font-size: 15px; }
-  .services__more :global(svg) { width: 12px; height: 12px; }
 
   @media (max-width: 1080px) { .svc { grid-column: span 6; } }
   @media (max-width: 600px) { .svc { grid-column: 1 / -1; } .svc__link { height: 420px; } }

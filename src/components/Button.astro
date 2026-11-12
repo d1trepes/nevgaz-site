@@ -1,5 +1,6 @@
 ---
-// Единственная кнопка сайта: оранжевая pill с белой шайбой-стрелкой.
+// Кнопка сайта: оранжевая pill с белой шайбой-стрелкой.
+// ghost — второстепенная: белая pill с тёмным текстом и светлой шайбой (Все цены, Все работы, 2ГИС).
 // lead — открывает модалку «Вызвать мастера» (topic — что подставить в поле «Что нужно»).
 import Arrow from './Arrow.astro';
 interface Props {
@@ -10,12 +11,14 @@ interface Props {
   type?: 'button' | 'submit';
   block?: boolean;
   class?: string;
+  variant?: 'primary' | 'ghost';
+  external?: boolean;
 }
-const { href, lead = false, topic, size = 'md', type = 'button', block = false, class: cls } = Astro.props;
-const classes = ['btn', size === 'sm' && 'btn--sm', block && 'btn--block', cls].filter(Boolean).join(' ');
+const { href, lead = false, topic, size = 'md', type = 'button', block = false, class: cls, variant = 'primary', external = false } = Astro.props;
+const classes = ['btn', size === 'sm' && 'btn--sm', block && 'btn--block', variant === 'ghost' && 'btn--ghost', cls].filter(Boolean).join(' ');
 ---
 {href && !lead ? (
-  <a class={classes} href={href}><slot /><span class="btn__puck"><Arrow /></span></a>
+  <a class={classes} href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}><slot /><span class="btn__puck"><Arrow /></span></a>
 ) : (
   <button class={classes} type={type} data-lead={lead ? '' : undefined} data-topic={topic}><slot /><span class="btn__puck"><Arrow /></span></button>
 )}

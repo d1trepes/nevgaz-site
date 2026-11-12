@@ -51,7 +51,7 @@ const layers = [
 
 <style is:global>
   /* CSS прототипа без изменений; селекторы только ограничены .hero-wrap */
-  .hero-wrap { width: 100%; max-width: clamp(820px, calc((100svh - 352px) * 2.2277 + 56px), 1680px); margin-inline: auto; padding-left: max(clamp(16px, 2vw, 28px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 2vw, 28px), env(safe-area-inset-right, 0px)); padding-block: 0 24px; }
+  .hero-wrap { width: 100%; max-width: var(--container); margin-inline: auto; padding-left: max(clamp(16px, 2vw, 28px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 2vw, 28px), env(safe-area-inset-right, 0px)); padding-block: 0 24px; }
 
   .hero-wrap .hero-head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; row-gap: 20px; align-items: end; padding: clamp(12px, 2.4svh, 32px) 0 clamp(18px, 2.6svh, 28px); }
   .hero-wrap .hero-head h1 { grid-column: 1 / span 7; font-size: clamp(48px, min(7vw, 10.5svh), 112px); line-height: .9; letter-spacing: -.01em; }
@@ -59,6 +59,8 @@ const layers = [
   .hero-wrap .hero-side p { font-size: 18px; line-height: 1.55; color: #3d444e; }
   .hero-wrap .stage { position: relative; border-radius: 28px; overflow: hidden; background: #6f87b8; }
   .hero-wrap .house { position: relative; width: 100%; aspect-ratio: 1448 / 650; }
+  /* ширина по сетке сайта; по высоте дом подрезается на несколько процентов, чтобы выключатели оставались в первом экране */
+  @media (min-width: 901px) { .hero-wrap .house { max-height: max(460px, calc(100svh - 316px)); } }
   .hero-wrap .house img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; display: block; transition: opacity .9s cubic-bezier(.22,.7,.2,1); }
   .hero-wrap .house .layer { opacity: 0; }
   .hero-wrap .house[data-light="off"] .l-dark { opacity: 1; }

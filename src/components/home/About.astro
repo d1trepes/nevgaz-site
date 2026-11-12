@@ -2,7 +2,7 @@
 // 7. О мастере — ref-03: заголовок слева, абзац справа, две большие фото рядом, три факта текстом.
 import { Image } from 'astro:assets';
 import master from '../../assets/ai/master-portrait.jpg';
-import boiler from '../../assets/photos/11-boiler-wall-2.jpg';
+import facade from '../../assets/ai/master-facade.jpg';
 
 const facts = [
   { t: 'Своя бригада', d: 'Монтируем сами, без субподрядчиков. Кто приехал на&nbsp;замер, тот и&nbsp;запускает.' },
@@ -21,8 +21,7 @@ const facts = [
         <Image src={master} alt="Мастер в рабочем комбинезоне у настенного газового котла" widths={[640, 960, 1280]} sizes="(min-width: 900px) 58vw, 100vw" loading="lazy" />
       </figure>
       <figure class="about__ph about__ph--b">
-        <Image src={boiler} alt="Котельная: настенный котёл, дымоход и счётчик" widths={[480, 768, 1080]} sizes="(min-width: 900px) 42vw, 100vw" loading="lazy" />
-        <figcaption class="caption">Котёл, дымоход и&nbsp;счётчик — котельная частного дома</figcaption>
+        <Image src={facade} alt="Мастер на стремянке крепит жёлтый газопровод под карнизом кирпичного дома" widths={[480, 768, 1080]} sizes="(min-width: 900px) 42vw, 100vw" loading="lazy" />
       </figure>
     </div>
     <ul class="grid about__facts reveal">
@@ -43,7 +42,7 @@ const facts = [
   .about__ph--b { grid-column: 8 / -1; }
   .about__ph :global(img) { width: 100%; height: clamp(360px, 38vw, 640px); object-fit: cover; border-radius: var(--r-card); }
   .about__ph--a :global(img) { object-position: 50% 22%; }
-  .about__ph--b :global(img) { object-position: 35% 50%; }
+  .about__ph--b :global(img) { object-position: 38% 50%; }
 
   .about__facts { margin-top: clamp(32px, 4vw, 56px); row-gap: 28px; }
   .about__facts li { grid-column: span 4; padding-top: 20px; border-top: 1px solid var(--c-line); display: grid; gap: 8px; align-content: start; }

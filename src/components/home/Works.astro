@@ -1,7 +1,7 @@
 ---
 // 6. Наши работы — ref-04 «Innovative designs»: тёмный блок, горизонтальный слайдер реальных фото, лайтбокс.
 import { Image } from 'astro:assets';
-import Arrow from '../Arrow.astro';
+import Button from '../Button.astro';
 import { url } from '../../lib/url';
 import p02 from '../../assets/photos/02-kitchen-gas-hob.jpg';
 import p03 from '../../assets/photos/03-facade-gas-pipe.jpg';
@@ -35,7 +35,7 @@ const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
       <div class="grid sec-head works__head">
         <h2>Реальные объекты</h2>
         <div class="sec-head__aside works__aside">
-          <a class="link-arrow" href={url('/raboty/')}>Все работы<Arrow /></a>
+          <Button href={url('/raboty/')} variant="ghost" size="sm">Все работы</Button>
           <div class="works__nav">
             <button class="round" type="button" aria-label="Назад" data-prev disabled><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg></button>
             <button class="round" type="button" aria-label="Вперёд" data-next><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg></button>

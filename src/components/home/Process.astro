@@ -1,17 +1,17 @@
 ---
 // 3. Как мы работаем — ref-04: нумерованный список с тонкими линиями + большое фото, меняется по шагам.
 import { Image } from 'astro:assets';
+import request from '../../assets/ai/step-request.jpg';
 import meter from '../../assets/ai/meter-check.jpg';
-import boiler from '../../assets/photos/11-boiler-wall-2.jpg';
-import master from '../../assets/ai/master-portrait.jpg';
-import facade from '../../assets/photos/08-gas-pipe-meter-facade.jpg';
+import estimate from '../../assets/ai/step-estimate.jpg';
+import install from '../../assets/ai/step-install.jpg';
 import flame from '../../assets/ai/flame-macro.jpg';
 
 const steps = [
-  { t: 'Заявка', d: 'Звоните или&nbsp;оставляете номер — перезваниваем.', photo: meter, pos: '50% 50%', alt: 'Мастер проверяет газовый счётчик на&nbsp;фасаде' },
-  { t: 'Выезд и&nbsp;замер', d: 'Мастер приезжает на&nbsp;объект, смотрит дом и&nbsp;сети.', photo: boiler, pos: '50% 50%', alt: 'Настенный котёл, дымоход и&nbsp;счётчик в&nbsp;котельной' },
-  { t: 'Смета', d: 'Подбираем оборудование под дом и&nbsp;бюджет, фиксируем цену.', photo: master, pos: '50% 25%', alt: 'Мастер у&nbsp;настенного газового котла' },
-  { t: 'Монтаж', d: 'Своя бригада, без субподрядчиков.', photo: facade, pos: '50% 50%', alt: 'Газопровод и&nbsp;счётчик на&nbsp;кирпичном фасаде' },
+  { t: 'Заявка', d: 'Звоните или&nbsp;оставляете номер — перезваниваем.', photo: request, pos: '50% 50%', alt: 'Хозяин дома звонит мастеру, на&nbsp;столе план дома' },
+  { t: 'Выезд и&nbsp;замер', d: 'Мастер приезжает на&nbsp;объект, смотрит дом и&nbsp;сети.', photo: meter, pos: '50% 50%', alt: 'Мастер проверяет газовый счётчик на&nbsp;фасаде' },
+  { t: 'Смета', d: 'Подбираем оборудование под дом и&nbsp;бюджет, фиксируем цену.', photo: estimate, pos: '50% 50%', alt: 'Смета, калькулятор, рулетка и&nbsp;образцы крана и&nbsp;трубы на&nbsp;столе' },
+  { t: 'Монтаж', d: 'Своя бригада, без субподрядчиков.', photo: install, pos: '50% 50%', alt: 'Мастер затягивает газовый кран на&nbsp;жёлтой трубе' },
   { t: 'Запуск', d: 'Пусконаладка, сдача газовой службе, гарантия.', photo: flame, pos: '50% 50%', alt: 'Синее пламя газовой горелки котла' },
 ];
 const plain = (s: string) => s.replaceAll('&nbsp;', ' ');
