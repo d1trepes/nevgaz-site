@@ -117,6 +117,7 @@ const isActive = (href: string) => path.startsWith(url(href));
   .drop__t { padding-inline: 2px; }
   .drop :global(.drop__all) { justify-self: start; background: var(--c-bg); }
   .drop :global(.drop__all .btn__puck) { background: var(--c-surface); }
+  @media (hover: hover) { .drop :global(.drop__all:hover .btn__puck) { background: var(--c-orange); color: #fff; } }
   @media (hover: hover) {
     .drop__item:hover .drop__ph :global(img) { transform: scale(1.03); }
     .drop__item:hover .drop__t { color: var(--c-orange-600); }

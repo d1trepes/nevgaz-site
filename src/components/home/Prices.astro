@@ -17,11 +17,11 @@ const priceLines = (p: string) => nb(p).split(/\s*–\s*/).map((part, i, a) => (
 <section class="section prices" id="ceny">
   <div class="container">
     <div class="grid sec-head reveal">
-      <h2>Сколько стоит</h2>
-      <div class="sec-head__aside">
+      <div class="sec-head__title">
+        <h2>Сколько стоит</h2>
         <p>Ориентиры с&nbsp;нашей страницы в&nbsp;2ГИС. Точная&nbsp;цена — после выезда и&nbsp;замера.</p>
-        <Button href={url('/ceny/')} variant="ghost" class="aside-btn">Все цены</Button>
       </div>
+      <div class="sec-head__btn"><Button href={url('/ceny/')} variant="ghost">Все цены</Button></div>
     </div>
     <ul class="grid prices__grid reveal">
       {company.prices.map((p) => (
